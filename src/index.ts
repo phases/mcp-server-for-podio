@@ -683,10 +683,11 @@ async function runHttpServer(port: number): Promise<void> {
     res.end(JSON.stringify({ status: 'ok', service: 'podio-mcp' }));
   });
 
-  app.listen(port, () => {
-    console.error(`Podio MCP Server (HTTP/SSE) running on port ${port}`);
-    console.error(`  SSE:  http://localhost:${port}/sse`);
-    console.error(`  Health: http://localhost:${port}/health`);
+  const host = process.env.BIND_ADDRESS || '127.0.0.1';
+  app.listen(port, host, () => {
+    console.error(`Podio MCP Server (HTTP/SSE) running on http://${host}:${port}`);
+    console.error(`  SSE:  http://${host}:${port}/sse`);
+    console.error(`  Health: http://${host}:${port}/health`);
   });
 }
 
