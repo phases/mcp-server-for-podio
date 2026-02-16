@@ -1,0 +1,6 @@
+{
+  "id": "importer",
+  "name": "Importer",
+  "description": "Operations for data import",
+  "endpoints": []
+}

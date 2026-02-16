@@ -1,0 +1,132 @@
+{
+  "id": "spaces",
+  "name": "Spaces",
+  "description": "Operations for managing spaces (workspaces)",
+  "endpoints": [
+    {
+      "id": "spaces-get",
+      "method": "GET",
+      "path": "/space/{space_id}",
+      "summary": "Get space",
+      "description": "Retrieves a space by ID",
+      "params": {
+        "path": {
+          "space_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the space"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ space_id, name, url, ... }"
+    },
+    {
+      "id": "spaces-list",
+      "method": "GET",
+      "path": "/space/",
+      "summary": "List spaces",
+      "description": "Lists all spaces accessible to the authenticated user",
+      "params": {
+        "path": {},
+        "query": {
+          "org_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by organization ID"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ space_id, name, url, ... }, ...]"
+    },
+    {
+      "id": "spaces-create",
+      "method": "POST",
+      "path": "/space/",
+      "summary": "Create space",
+      "description": "Creates a new space",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "Space name"
+          },
+          "org_id": {
+            "type": "integer",
+            "required": true,
+            "description": "Organization ID"
+          },
+          "privacy": {
+            "type": "string",
+            "required": true,
+            "description": "Privacy: open, closed"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ space_id, name, url, ... }"
+    },
+    {
+      "id": "spaces-apps",
+      "method": "GET",
+      "path": "/space/{space_id}/app/",
+      "summary": "List apps in space",
+      "description": "Lists all apps in a space",
+      "params": {
+        "path": {
+          "space_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the space"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ app_id, name, ... }, ...]"
+    },
+    {
+      "id": "spaces-members",
+      "method": "GET",
+      "path": "/space/{space_id}/member/",
+      "summary": "List space members",
+      "description": "Lists all members of a space",
+      "params": {
+        "path": {
+          "space_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the space"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ user_id, role, ... }, ...]"
+    }
+  ]
+}

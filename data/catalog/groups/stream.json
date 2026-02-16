@@ -1,0 +1,93 @@
+{
+  "id": "stream",
+  "name": "Stream",
+  "description": "Operations for accessing activity streams",
+  "endpoints": [
+    {
+      "id": "stream-global",
+      "method": "GET",
+      "path": "/stream/",
+      "summary": "Get global stream",
+      "description": "Retrieves the global activity stream",
+      "params": {
+        "path": {},
+        "query": {
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum items to return"
+          },
+          "offset": {
+            "type": "integer",
+            "required": false,
+            "description": "Pagination offset"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ activity_id, type, created_on, ... }, ...]"
+    },
+    {
+      "id": "stream-space",
+      "method": "GET",
+      "path": "/stream/space/{space_id}/",
+      "summary": "Get space stream",
+      "description": "Retrieves the activity stream for a space",
+      "params": {
+        "path": {
+          "space_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the space"
+          }
+        },
+        "query": {
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum items to return"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "stream-app",
+      "method": "GET",
+      "path": "/stream/app/{app_id}/",
+      "summary": "Get app stream",
+      "description": "Retrieves the activity stream for an app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum items to return"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

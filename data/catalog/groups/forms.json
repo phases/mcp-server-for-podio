@@ -1,0 +1,82 @@
+{
+  "id": "forms",
+  "name": "Forms",
+  "description": "Operations for managing forms",
+  "endpoints": [
+    {
+      "id": "forms-get",
+      "method": "GET",
+      "path": "/form/{form_id}",
+      "summary": "Get form",
+      "description": "Retrieves a form definition",
+      "params": {
+        "path": {
+          "form_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the form"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ form_id, name, fields: [...], ... }"
+    },
+    {
+      "id": "forms-list",
+      "method": "GET",
+      "path": "/form/app/{app_id}/",
+      "summary": "List forms",
+      "description": "Retrieves all forms for an app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ form_id, name, ... }, ...]"
+    },
+    {
+      "id": "forms-submit",
+      "method": "POST",
+      "path": "/form/{form_id}/submit",
+      "summary": "Submit form",
+      "description": "Submits data to a form",
+      "params": {
+        "path": {
+          "form_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the form"
+          }
+        },
+        "query": {},
+        "body": {
+          "fields": {
+            "type": "object",
+            "required": true,
+            "description": "Field values keyed by external_id"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ item_id, ... }"
+    }
+  ]
+}

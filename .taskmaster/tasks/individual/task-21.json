@@ -1,0 +1,12 @@
+{
+  "id": 21,
+  "title": "Create Developer Documentation",
+  "description": "Write comprehensive documentation for using the MCP server. Must include README with setup instructions, tool usage examples, environment variable documentation, and troubleshooting guide.",
+  "details": "Sprint 5 - Integration & Polish. Essential documentation for developers.",
+  "testStrategy": "Review documentation completeness, verify examples work, check all tools documented.",
+  "status": "pending",
+  "dependencies": [18],
+  "priority": "high",
+  "subtasks": []
+}
+

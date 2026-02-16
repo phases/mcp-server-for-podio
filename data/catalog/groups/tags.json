@@ -1,0 +1,103 @@
+{
+  "id": "tags",
+  "name": "Tags",
+  "description": "Operations for managing tags",
+  "endpoints": [
+    {
+      "id": "tags-list",
+      "method": "GET",
+      "path": "/tag/{ref_type}/{ref_id}/",
+      "summary": "List tags",
+      "description": "Retrieves tags for an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type: item, task, etc."
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ text, ... }, ...]"
+    },
+    {
+      "id": "tags-create",
+      "method": "POST",
+      "path": "/tag/{ref_type}/{ref_id}/",
+      "summary": "Add tags",
+      "description": "Adds tags to an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {
+          "text": {
+            "type": "array",
+            "required": true,
+            "description": "Array of tag strings"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "tags-delete",
+      "method": "DELETE",
+      "path": "/tag/{ref_type}/{ref_id}/",
+      "summary": "Remove tags",
+      "description": "Removes tags from an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {
+          "text": {
+            "type": "array",
+            "required": true,
+            "description": "Array of tag strings to remove"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

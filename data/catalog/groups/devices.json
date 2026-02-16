@@ -1,0 +1,6 @@
+{
+  "id": "devices",
+  "name": "Devices",
+  "description": "Operations for mobile device management",
+  "endpoints": []
+}

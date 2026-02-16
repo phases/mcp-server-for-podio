@@ -1,0 +1,6 @@
+{
+  "id": "alerts",
+  "name": "Alerts",
+  "description": "Operations for managing alerts",
+  "endpoints": []
+}

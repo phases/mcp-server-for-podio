@@ -1,0 +1,391 @@
+{
+  "id": "items",
+  "name": "Items",
+  "description": "Operations for managing items (records) in Podio apps",
+  "endpoints": [
+    {
+      "id": "items-get",
+      "method": "GET",
+      "path": "/item/{item_id}",
+      "summary": "Get item by ID",
+      "description": "Retrieves a single item with all field values",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          }
+        },
+        "query": {
+          "fields": {
+            "type": "string",
+            "required": false,
+            "description": "Comma-separated field external IDs to include"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ item_id, title, fields: {...}, created_on, ... }"
+    },
+    {
+      "id": "items-create",
+      "method": "POST",
+      "path": "/item/app/{app_id}",
+      "summary": "Create new item",
+      "description": "Creates a new item in the specified app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {
+          "hook": {
+            "type": "boolean",
+            "required": false,
+            "description": "Enable webhooks/triggers (default: true). Set to false to disable webhooks when creating the item."
+          }
+        },
+        "body": {
+          "fields": {
+            "type": "object",
+            "required": true,
+            "description": "Field values keyed by external_id"
+          },
+          "tags": {
+            "type": "array",
+            "required": false,
+            "description": "Array of tag strings"
+          },
+          "file_ids": {
+            "type": "array",
+            "required": false,
+            "description": "Array of file IDs to attach"
+          },
+          "external_id": {
+            "type": "string",
+            "required": false,
+            "description": "External identifier for the item"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ item_id, title, fields: {...}, ... }"
+    },
+    {
+      "id": "items-update",
+      "method": "PUT",
+      "path": "/item/{item_id}",
+      "summary": "Update item",
+      "description": "Updates an existing item's field values",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          }
+        },
+        "query": {},
+        "body": {
+          "fields": {
+            "type": "object",
+            "required": true,
+            "description": "Updated field values"
+          },
+          "tags": {
+            "type": "array",
+            "required": false,
+            "description": "Updated tags"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-delete",
+      "method": "DELETE",
+      "path": "/item/{item_id}",
+      "summary": "Delete item",
+      "description": "Deletes an item permanently",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-filter",
+      "method": "POST",
+      "path": "/item/app/{app_id}/filter/",
+      "summary": "Filter items",
+      "description": "Filters items in an app based on criteria",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {
+          "filters": {
+            "type": "array",
+            "required": false,
+            "description": "Array of filter objects"
+          },
+          "sort_by": {
+            "type": "string",
+            "required": false,
+            "description": "Field external_id to sort by"
+          },
+          "sort_desc": {
+            "type": "boolean",
+            "required": false,
+            "description": "Sort descending"
+          },
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum number of items to return (default: 30)"
+          },
+          "offset": {
+            "type": "integer",
+            "required": false,
+            "description": "Offset for pagination"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ items: [...], filtered: number, total: number }"
+    },
+    {
+      "id": "items-bulk-update",
+      "method": "POST",
+      "path": "/item/app/{app_id}/bulk_update",
+      "summary": "Bulk update items",
+      "description": "Updates multiple items at once",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {
+          "items": {
+            "type": "array",
+            "required": true,
+            "description": "Array of { item_id, fields: {...} } objects"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-revision",
+      "method": "GET",
+      "path": "/item/{item_id}/revision/",
+      "summary": "Get item revisions",
+      "description": "Retrieves revision history for an item",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ revision, created_on, created_by, ... }, ...]"
+    },
+    {
+      "id": "items-value",
+      "method": "GET",
+      "path": "/item/{item_id}/value/{field_id}",
+      "summary": "Get field value",
+      "description": "Retrieves the value of a specific field in an item",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          },
+          "field_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the field"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-calculation",
+      "method": "GET",
+      "path": "/item/app/{app_id}/calculation",
+      "summary": "Get calculation fields",
+      "description": "Retrieves calculated field values for items in an app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {
+          "field_ids": {
+            "type": "string",
+            "required": false,
+            "description": "Comma-separated field IDs"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-xlsx",
+      "method": "GET",
+      "path": "/item/app/{app_id}/xlsx/",
+      "summary": "Export items to XLSX",
+      "description": "Exports items from an app to Excel format",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {
+          "view_id": {
+            "type": "integer",
+            "required": false,
+            "description": "View ID to use for export"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "XLSX file download"
+    },
+    {
+      "id": "items-revision-get",
+      "method": "GET",
+      "path": "/item/{item_id}/revision/{revision}",
+      "summary": "Get item revision",
+      "description": "Retrieves the details for a specific revision of an item",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          },
+          "revision": {
+            "type": "integer",
+            "required": true,
+            "description": "The revision number"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "items-revision-diff",
+      "method": "GET",
+      "path": "/item/{item_id}/revision/{revision_from}/{revision_to}",
+      "summary": "Get item revision difference",
+      "description": "Returns the difference between two revisions of an item",
+      "params": {
+        "path": {
+          "item_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the item"
+          },
+          "revision_from": {
+            "type": "integer",
+            "required": true,
+            "description": "The starting revision number"
+          },
+          "revision_to": {
+            "type": "integer",
+            "required": true,
+            "description": "The ending revision number"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON array of field differences"
+    }
+  ]
+}

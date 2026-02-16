@@ -1,0 +1,120 @@
+{
+  "id": "hooks",
+  "name": "Hooks",
+  "description": "Operations for managing webhooks",
+  "endpoints": [
+    {
+      "id": "hooks-list",
+      "method": "GET",
+      "path": "/hook/{ref_type}/{ref_id}/",
+      "summary": "List hooks",
+      "description": "Retrieves all webhooks for an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type: app, item, etc."
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ hook_id, url, type, ... }, ...]"
+    },
+    {
+      "id": "hooks-create",
+      "method": "POST",
+      "path": "/hook/{ref_type}/{ref_id}/",
+      "summary": "Create hook",
+      "description": "Creates a webhook for an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {
+          "url": {
+            "type": "string",
+            "required": true,
+            "description": "Webhook URL"
+          },
+          "type": {
+            "type": "string",
+            "required": true,
+            "description": "Event type: item.create, item.update, etc."
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ hook_id, url, type, ... }"
+    },
+    {
+      "id": "hooks-delete",
+      "method": "DELETE",
+      "path": "/hook/{hook_id}",
+      "summary": "Delete hook",
+      "description": "Deletes a webhook",
+      "params": {
+        "path": {
+          "hook_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the hook"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "hooks-verify",
+      "method": "POST",
+      "path": "/hook/{hook_id}/verify/verify",
+      "summary": "Verify hook",
+      "description": "Verifies a webhook",
+      "params": {
+        "path": {
+          "hook_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the hook"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "batch",
+  "name": "Batch",
+  "description": "Operations for batch processing",
+  "endpoints": [
+    {
+      "id": "batch-execute",
+      "method": "POST",
+      "path": "/batch/",
+      "summary": "Execute batch",
+      "description": "Executes multiple API calls in a single request",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "items": {
+            "type": "array",
+            "required": true,
+            "description": "Array of { method, url, body } objects"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ status, body, ... }, ...]"
+    }
+  ]
+}

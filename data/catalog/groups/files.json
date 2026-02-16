@@ -1,0 +1,143 @@
+{
+  "id": "files",
+  "name": "Files",
+  "description": "Operations for managing file uploads and downloads",
+  "endpoints": [
+    {
+      "id": "files-upload",
+      "method": "POST",
+      "path": "/file/",
+      "summary": "Upload file",
+      "description": "Uploads a file to Podio",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "source": {
+            "type": "string",
+            "required": true,
+            "description": "File source: 'computer', 'url', etc."
+          },
+          "filename": {
+            "type": "string",
+            "required": true,
+            "description": "File name"
+          },
+          "file": {
+            "type": "file",
+            "required": true,
+            "description": "File data (multipart/form-data)"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ file_id, name, mimetype, size, created_on, ... }"
+    },
+    {
+      "id": "files-get",
+      "method": "GET",
+      "path": "/file/{file_id}",
+      "summary": "Get file",
+      "description": "Retrieves file information",
+      "params": {
+        "path": {
+          "file_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the file"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ file_id, name, mimetype, size, created_on, ... }"
+    },
+    {
+      "id": "files-download",
+      "method": "GET",
+      "path": "/file/{file_id}/download",
+      "summary": "Download file",
+      "description": "Downloads the file content",
+      "params": {
+        "path": {
+          "file_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the file"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "Binary file content"
+    },
+    {
+      "id": "files-delete",
+      "method": "DELETE",
+      "path": "/file/{file_id}",
+      "summary": "Delete file",
+      "description": "Deletes a file",
+      "params": {
+        "path": {
+          "file_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the file"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "files-attach",
+      "method": "POST",
+      "path": "/file/{file_id}/attach",
+      "summary": "Attach file",
+      "description": "Attaches a file to an object",
+      "params": {
+        "path": {
+          "file_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the file"
+          }
+        },
+        "query": {},
+        "body": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type: item, task, etc."
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

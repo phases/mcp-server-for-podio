@@ -1,0 +1,6 @@
+{
+  "id": "integrations",
+  "name": "Integrations",
+  "description": "Operations for managing integrations",
+  "endpoints": []
+}

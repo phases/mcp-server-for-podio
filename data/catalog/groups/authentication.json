@@ -1,0 +1,73 @@
+{
+  "id": "authentication",
+  "name": "Authentication",
+  "description": "Authentication and authorization endpoints",
+  "endpoints": [
+    {
+      "id": "auth-token",
+      "method": "POST",
+      "path": "/oauth/token/v2",
+      "summary": "Get access token",
+      "description": "Authenticates and retrieves an access token",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "grant_type": {
+            "type": "string",
+            "required": true,
+            "description": "Grant type: 'app' or 'password'"
+          },
+          "app_id": {
+            "type": "integer",
+            "required": false,
+            "description": "App ID (required for app grant)"
+          },
+          "app_token": {
+            "type": "string",
+            "required": false,
+            "description": "App token (required for app grant)"
+          },
+          "username": {
+            "type": "string",
+            "required": false,
+            "description": "Username (required for password grant)"
+          },
+          "password": {
+            "type": "string",
+            "required": false,
+            "description": "Password (required for password grant)"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 100,
+        "window": "hour"
+      },
+      "responseFormat": "{ access_token, expires_in, ... }"
+    },
+    {
+      "id": "auth-revoke",
+      "method": "POST",
+      "path": "/oauth/token/revoke",
+      "summary": "Revoke token",
+      "description": "Revokes an access token",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "token": {
+            "type": "string",
+            "required": true,
+            "description": "Access token to revoke"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

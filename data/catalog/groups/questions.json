@@ -1,0 +1,6 @@
+{
+  "id": "questions",
+  "name": "Questions",
+  "description": "Operations for managing questions",
+  "endpoints": []
+}

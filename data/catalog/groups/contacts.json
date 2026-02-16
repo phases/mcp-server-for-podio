@@ -1,0 +1,86 @@
+{
+  "id": "contacts",
+  "name": "Contacts",
+  "description": "Operations for managing user contacts and profiles",
+  "endpoints": [
+    {
+      "id": "contacts-get",
+      "method": "GET",
+      "path": "/contact/{contact_id}",
+      "summary": "Get contact",
+      "description": "Retrieves contact information",
+      "params": {
+        "path": {
+          "contact_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the contact"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ contact_id, name, mail, phone, ... }"
+    },
+    {
+      "id": "contacts-list",
+      "method": "GET",
+      "path": "/contact/",
+      "summary": "List contacts",
+      "description": "Lists contacts, optionally filtered",
+      "params": {
+        "path": {},
+        "query": {
+          "space_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by space ID"
+          },
+          "org_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by organization ID"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ contact_id, name, mail, ... }, ...]"
+    },
+    {
+      "id": "contacts-search",
+      "method": "GET",
+      "path": "/contact/search/",
+      "summary": "Search contacts",
+      "description": "Searches for contacts",
+      "params": {
+        "path": {},
+        "query": {
+          "query": {
+            "type": "string",
+            "required": true,
+            "description": "Search query"
+          },
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum results to return"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

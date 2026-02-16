@@ -1,0 +1,64 @@
+{
+  "id": "users",
+  "name": "Users",
+  "description": "Operations for managing users",
+  "endpoints": [
+    {
+      "id": "users-get",
+      "method": "GET",
+      "path": "/user/{user_id}",
+      "summary": "Get user",
+      "description": "Retrieves user information",
+      "params": {
+        "path": {
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the user"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ user_id, name, mail, ... }"
+    },
+    {
+      "id": "users-status",
+      "method": "GET",
+      "path": "/user/status",
+      "summary": "Get user status",
+      "description": "Retrieves the status of the authenticated user",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ user_id, status, ... }"
+    },
+    {
+      "id": "users-profile",
+      "method": "GET",
+      "path": "/user/profile",
+      "summary": "Get user profile",
+      "description": "Retrieves the profile of the authenticated user",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ user_id, name, profile: {...}, ... }"
+    }
+  ]
+}

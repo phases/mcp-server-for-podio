@@ -1,0 +1,40 @@
+{
+  "id": "calendar",
+  "name": "Calendar",
+  "description": "Operations for accessing calendar data",
+  "endpoints": [
+    {
+      "id": "calendar-get",
+      "method": "GET",
+      "path": "/calendar/",
+      "summary": "Get calendar",
+      "description": "Retrieves calendar events",
+      "params": {
+        "path": {},
+        "query": {
+          "date_from": {
+            "type": "string",
+            "required": false,
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          "date_to": {
+            "type": "string",
+            "required": false,
+            "description": "End date (YYYY-MM-DD)"
+          },
+          "space_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by space ID"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ event_id, title, start, end, ... }, ...]"
+    }
+  ]
+}

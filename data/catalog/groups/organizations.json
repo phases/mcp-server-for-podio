@@ -1,0 +1,70 @@
+{
+  "id": "organizations",
+  "name": "Organizations",
+  "description": "Operations for managing organizations",
+  "endpoints": [
+    {
+      "id": "orgs-get",
+      "method": "GET",
+      "path": "/org/{org_id}",
+      "summary": "Get organization",
+      "description": "Retrieves an organization by ID",
+      "params": {
+        "path": {
+          "org_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the organization"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ org_id, name, url, ... }"
+    },
+    {
+      "id": "orgs-list",
+      "method": "GET",
+      "path": "/org/",
+      "summary": "List organizations",
+      "description": "Lists all organizations accessible to the authenticated user",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ org_id, name, url, ... }, ...]"
+    },
+    {
+      "id": "orgs-members",
+      "method": "GET",
+      "path": "/org/{org_id}/member/",
+      "summary": "List org members",
+      "description": "Lists all members of an organization",
+      "params": {
+        "path": {
+          "org_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the organization"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ user_id, role, ... }, ...]"
+    }
+  ]
+}

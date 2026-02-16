@@ -1,0 +1,92 @@
+{
+  "id": "views",
+  "name": "Views",
+  "description": "Operations for managing app views",
+  "endpoints": [
+    {
+      "id": "views-list",
+      "method": "GET",
+      "path": "/view/app/{app_id}/",
+      "summary": "List views",
+      "description": "Retrieves all views for an app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ view_id, name, type, ... }, ...]"
+    },
+    {
+      "id": "views-get",
+      "method": "GET",
+      "path": "/view/{view_id}",
+      "summary": "Get view",
+      "description": "Retrieves a view definition",
+      "params": {
+        "path": {
+          "view_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the view"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ view_id, name, type, filters: {...}, ... }"
+    },
+    {
+      "id": "views-create",
+      "method": "POST",
+      "path": "/view/app/{app_id}/",
+      "summary": "Create view",
+      "description": "Creates a new view for an app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "View name"
+          },
+          "type": {
+            "type": "string",
+            "required": true,
+            "description": "View type: table, calendar, etc."
+          },
+          "filters": {
+            "type": "object",
+            "required": false,
+            "description": "View filters"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

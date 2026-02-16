@@ -1,0 +1,6 @@
+{
+  "id": "reminders",
+  "name": "Reminders",
+  "description": "Operations for managing reminders",
+  "endpoints": []
+}

@@ -1,0 +1,6 @@
+{
+  "id": "grants",
+  "name": "Grants",
+  "description": "Operations for managing grants",
+  "endpoints": []
+}

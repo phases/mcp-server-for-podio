@@ -1,0 +1,91 @@
+{
+  "id": "subscriptions",
+  "name": "Subscriptions",
+  "description": "Operations for managing subscriptions to objects",
+  "endpoints": [
+    {
+      "id": "subscriptions-list",
+      "method": "GET",
+      "path": "/subscription/{ref_type}/{ref_id}/",
+      "summary": "List subscriptions",
+      "description": "Retrieves subscriptions for an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ subscription_id, user_id, ... }, ...]"
+    },
+    {
+      "id": "subscriptions-create",
+      "method": "POST",
+      "path": "/subscription/{ref_type}/{ref_id}/",
+      "summary": "Subscribe",
+      "description": "Subscribes to an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "subscriptions-delete",
+      "method": "DELETE",
+      "path": "/subscription/{ref_type}/{ref_id}/",
+      "summary": "Unsubscribe",
+      "description": "Unsubscribes from an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

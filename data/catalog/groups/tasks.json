@@ -1,0 +1,255 @@
+{
+  "id": "tasks",
+  "name": "Tasks",
+  "description": "Operations for managing tasks",
+  "endpoints": [
+    {
+      "id": "tasks-get",
+      "method": "GET",
+      "path": "/task/{task_id}",
+      "summary": "Get task",
+      "description": "Retrieves a task by ID",
+      "params": {
+        "path": {
+          "task_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the task"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ task_id, text, status, due_on, created_on, ... }"
+    },
+    {
+      "id": "tasks-list",
+      "method": "GET",
+      "path": "/task/",
+      "summary": "List tasks",
+      "description": "Lists tasks with filters. REQUIRES at least one filter: responsible, space_id, app_id, org_id, ref_type+ref_id, created_by, or completed_by",
+      "params": {
+        "path": {},
+        "query": {
+          "responsible": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by responsible user ID (at least one filter is required)"
+          },
+          "space_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by space ID (at least one filter is required)"
+          },
+          "app_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by app ID (at least one filter is required)"
+          },
+          "org_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by organization ID (at least one filter is required)"
+          },
+          "ref_type": {
+            "type": "string",
+            "required": false,
+            "description": "Reference type (must be used with ref_id, at least one filter is required)"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Reference ID (must be used with ref_type, at least one filter is required)"
+          },
+          "created_by": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by creator user ID (at least one filter is required)"
+          },
+          "completed_by": {
+            "type": "integer",
+            "required": false,
+            "description": "Filter by completer user ID (at least one filter is required)"
+          },
+          "completed": {
+            "type": "boolean",
+            "required": false,
+            "description": "Filter by completion status (must be used with another filter)"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ task_id, text, status, ... }, ...]"
+    },
+    {
+      "id": "tasks-create",
+      "method": "POST",
+      "path": "/task/",
+      "summary": "Create task",
+      "description": "Creates a new task",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {
+          "text": {
+            "type": "string",
+            "required": true,
+            "description": "Task description"
+          },
+          "due_on": {
+            "type": "string",
+            "required": false,
+            "description": "Due date and time in format YYYY-MM-DD HH:MM:SS (e.g., '2025-12-03 23:59:59')"
+          },
+          "responsible": {
+            "type": "integer",
+            "required": false,
+            "description": "User ID of responsible person"
+          },
+          "private": {
+            "type": "boolean",
+            "required": false,
+            "description": "Whether task is private"
+          },
+          "ref_type": {
+            "type": "string",
+            "required": false,
+            "description": "Reference type if task is linked to object"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": false,
+            "description": "Reference ID if task is linked to object"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ task_id, text, status, ... }"
+    },
+    {
+      "id": "tasks-update",
+      "method": "PUT",
+      "path": "/task/{task_id}",
+      "summary": "Update task",
+      "description": "Updates an existing task",
+      "params": {
+        "path": {
+          "task_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the task"
+          }
+        },
+        "query": {},
+        "body": {
+          "text": {
+            "type": "string",
+            "required": false,
+            "description": "Updated task description"
+          },
+          "status": {
+            "type": "string",
+            "required": false,
+            "description": "Task status: active, completed"
+          },
+          "due_on": {
+            "type": "string",
+            "required": false,
+            "description": "Updated due date and time in format YYYY-MM-DD HH:MM:SS (e.g., '2025-12-03 23:59:59')"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "tasks-delete",
+      "method": "DELETE",
+      "path": "/task/{task_id}",
+      "summary": "Delete task",
+      "description": "Deletes a task",
+      "params": {
+        "path": {
+          "task_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the task"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "tasks-assign",
+      "method": "POST",
+      "path": "/task/{task_id}/assign",
+      "summary": "Assign task",
+      "description": "Assigns a task to a user",
+      "params": {
+        "path": {
+          "task_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the task"
+          }
+        },
+        "query": {},
+        "body": {
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "description": "User ID to assign task to"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "tasks-complete",
+      "method": "POST",
+      "path": "/task/{task_id}/complete",
+      "summary": "Complete task",
+      "description": "Marks a task as completed",
+      "params": {
+        "path": {
+          "task_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the task"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

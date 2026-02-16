@@ -1,0 +1,6 @@
+{
+  "id": "flows",
+  "name": "Flows",
+  "description": "Operations for managing flows",
+  "endpoints": []
+}

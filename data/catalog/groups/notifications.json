@@ -1,0 +1,75 @@
+{
+  "id": "notifications",
+  "name": "Notifications",
+  "description": "Operations for managing notifications",
+  "endpoints": [
+    {
+      "id": "notifications-list",
+      "method": "GET",
+      "path": "/notification/",
+      "summary": "List notifications",
+      "description": "Retrieves notifications for the authenticated user",
+      "params": {
+        "path": {},
+        "query": {
+          "viewed": {
+            "type": "boolean",
+            "required": false,
+            "description": "Filter by viewed status"
+          },
+          "starred": {
+            "type": "boolean",
+            "required": false,
+            "description": "Filter by starred status"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ notification_id, text, created_on, ... }, ...]"
+    },
+    {
+      "id": "notifications-mark-viewed",
+      "method": "POST",
+      "path": "/notification/{notification_id}/viewed",
+      "summary": "Mark as viewed",
+      "description": "Marks a notification as viewed",
+      "params": {
+        "path": {
+          "notification_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the notification"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "notifications-mark-all-viewed",
+      "method": "POST",
+      "path": "/notification/viewed",
+      "summary": "Mark all as viewed",
+      "description": "Marks all notifications as viewed",
+      "params": {
+        "path": {},
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

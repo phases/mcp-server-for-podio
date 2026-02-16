@@ -1,0 +1,6 @@
+{
+  "id": "oauth-authorization",
+  "name": "OAuth authorization",
+  "description": "OAuth authentication and authorization endpoints",
+  "endpoints": []
+}

@@ -1,0 +1,6 @@
+{
+  "id": "email",
+  "name": "Email",
+  "description": "Operations for email management",
+  "endpoints": []
+}

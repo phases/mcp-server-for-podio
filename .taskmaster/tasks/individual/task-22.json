@@ -1,0 +1,12 @@
+{
+  "id": 22,
+  "title": "Add Integration Examples",
+  "description": "Create example scripts showing how to use generated configs. Must include example TypeScript file using generated config, example integration code, comments explaining usage, and examples in examples/ directory.",
+  "details": "Sprint 5 - Integration & Polish. Provides practical usage examples.",
+  "testStrategy": "Verify examples compile and run, check code quality, verify comments are helpful.",
+  "status": "pending",
+  "dependencies": [15],
+  "priority": "medium",
+  "subtasks": []
+}
+

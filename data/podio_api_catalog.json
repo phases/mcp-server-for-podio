@@ -1,0 +1,2405 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-02",
+  "baseUrl": "https://api.podio.com",
+  "documentation": "https://developers.podio.com/doc",
+  "rateLimit": {
+    "default": {
+      "limit": 2500,
+      "window": "hour"
+    },
+    "auth": {
+      "limit": 100,
+      "window": "hour"
+    },
+    "search": {
+      "limit": 1000,
+      "window": "hour"
+    }
+  },
+  "groups": [
+    {
+      "id": "applications",
+      "name": "Applications",
+      "description": "Operations for managing application definitions",
+      "endpoints": [
+        {
+          "id": "apps-get",
+          "method": "GET",
+          "path": "/app/{app_id}",
+          "summary": "Get app definition",
+          "description": "Retrieves the definition of an app including all fields, configuration, and metadata",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ app_id, name, status, fields: [...], config: {...} }"
+        },
+        {
+          "id": "apps-list",
+          "method": "GET",
+          "path": "/app/",
+          "summary": "List apps",
+          "description": "Lists all apps accessible to the authenticated user",
+          "params": {
+            "path": {},
+            "query": {
+              "space_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by space ID"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ app_id, name, status, ... }, ...]"
+        },
+        {
+          "id": "apps-fields",
+          "method": "GET",
+          "path": "/app/{app_id}/field/",
+          "summary": "Get app fields",
+          "description": "Retrieves all fields for an app with their configurations",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ field_id, external_id, type, label, config: {...} }, ...]"
+        },
+        {
+          "id": "apps-create",
+          "method": "POST",
+          "path": "/app/",
+          "summary": "Create app",
+          "description": "Creates a new app in a space",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "Space ID where app will be created"
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "description": "App name"
+              },
+              "fields": {
+                "type": "array",
+                "required": true,
+                "description": "Array of field definitions"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ app_id, name, status, ... }"
+        },
+        {
+          "id": "apps-update",
+          "method": "PUT",
+          "path": "/app/{app_id}",
+          "summary": "Update app",
+          "description": "Updates app configuration",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "name": {
+                "type": "string",
+                "required": false,
+                "description": "Updated app name"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "apps-delete",
+          "method": "DELETE",
+          "path": "/app/{app_id}",
+          "summary": "Delete app",
+          "description": "Deletes an app (requires appropriate permissions)",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "apps-install",
+          "method": "POST",
+          "path": "/app/{app_id}/install",
+          "summary": "Install app",
+          "description": "Installs an app from the app market",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "Space ID to install app in"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "apps-usage",
+          "method": "GET",
+          "path": "/app/{app_id}/usage",
+          "summary": "Get app usage",
+          "description": "Retrieves usage statistics for an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ item_count, view_count, ... }"
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "name": "Items",
+      "description": "Operations for managing items (records) in Podio apps",
+      "endpoints": [
+        {
+          "id": "items-get",
+          "method": "GET",
+          "path": "/item/{item_id}",
+          "summary": "Get item by ID",
+          "description": "Retrieves a single item with all field values",
+          "params": {
+            "path": {
+              "item_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the item"
+              }
+            },
+            "query": {
+              "fields": {
+                "type": "string",
+                "required": false,
+                "description": "Comma-separated field external IDs to include"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ item_id, title, fields: {...}, created_on, ... }"
+        },
+        {
+          "id": "items-create",
+          "method": "POST",
+          "path": "/item/app/{app_id}",
+          "summary": "Create new item",
+          "description": "Creates a new item in the specified app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "fields": {
+                "type": "object",
+                "required": true,
+                "description": "Field values keyed by external_id"
+              },
+              "tags": {
+                "type": "array",
+                "required": false,
+                "description": "Array of tag strings"
+              },
+              "file_ids": {
+                "type": "array",
+                "required": false,
+                "description": "Array of file IDs to attach"
+              },
+              "external_id": {
+                "type": "string",
+                "required": false,
+                "description": "External identifier for the item"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ item_id, title, fields: {...}, ... }"
+        },
+        {
+          "id": "items-update",
+          "method": "PUT",
+          "path": "/item/{item_id}",
+          "summary": "Update item",
+          "description": "Updates an existing item's field values",
+          "params": {
+            "path": {
+              "item_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the item"
+              }
+            },
+            "query": {},
+            "body": {
+              "fields": {
+                "type": "object",
+                "required": true,
+                "description": "Updated field values"
+              },
+              "tags": {
+                "type": "array",
+                "required": false,
+                "description": "Updated tags"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "items-delete",
+          "method": "DELETE",
+          "path": "/item/{item_id}",
+          "summary": "Delete item",
+          "description": "Deletes an item permanently",
+          "params": {
+            "path": {
+              "item_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the item"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "items-filter",
+          "method": "POST",
+          "path": "/item/app/{app_id}/filter/",
+          "summary": "Filter items",
+          "description": "Filters items in an app based on criteria",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "filters": {
+                "type": "array",
+                "required": false,
+                "description": "Array of filter objects"
+              },
+              "sort_by": {
+                "type": "string",
+                "required": false,
+                "description": "Field external_id to sort by"
+              },
+              "sort_desc": {
+                "type": "boolean",
+                "required": false,
+                "description": "Sort descending"
+              },
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum number of items to return (default: 30)"
+              },
+              "offset": {
+                "type": "integer",
+                "required": false,
+                "description": "Offset for pagination"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ items: [...], filtered: number, total: number }"
+        },
+        {
+          "id": "items-bulk-update",
+          "method": "POST",
+          "path": "/item/app/{app_id}/bulk_update",
+          "summary": "Bulk update items",
+          "description": "Updates multiple items at once",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "items": {
+                "type": "array",
+                "required": true,
+                "description": "Array of { item_id, fields: {...} } objects"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "items-revision",
+          "method": "GET",
+          "path": "/item/{item_id}/revision/",
+          "summary": "Get item revisions",
+          "description": "Retrieves revision history for an item",
+          "params": {
+            "path": {
+              "item_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the item"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ revision, created_on, created_by, ... }, ...]"
+        },
+        {
+          "id": "items-value",
+          "method": "GET",
+          "path": "/item/{item_id}/value/{field_id}",
+          "summary": "Get field value",
+          "description": "Retrieves the value of a specific field in an item",
+          "params": {
+            "path": {
+              "item_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the item"
+              },
+              "field_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the field"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "items-calculation",
+          "method": "GET",
+          "path": "/item/app/{app_id}/calculation",
+          "summary": "Get calculation fields",
+          "description": "Retrieves calculated field values for items in an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {
+              "field_ids": {
+                "type": "string",
+                "required": false,
+                "description": "Comma-separated field IDs"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "items-xlsx",
+          "method": "GET",
+          "path": "/item/app/{app_id}/xlsx/",
+          "summary": "Export items to XLSX",
+          "description": "Exports items from an app to Excel format",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {
+              "view_id": {
+                "type": "integer",
+                "required": false,
+                "description": "View ID to use for export"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "XLSX file download"
+        }
+      ]
+    },
+    {
+      "id": "comments",
+      "name": "Comments",
+      "description": "Operations for managing comments on items, tasks, and other objects",
+      "endpoints": [
+        {
+          "id": "comments-get",
+          "method": "GET",
+          "path": "/comment/{comment_id}",
+          "summary": "Get comment",
+          "description": "Retrieves a comment by ID",
+          "params": {
+            "path": {
+              "comment_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the comment"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ comment_id, value, created_on, created_by, ... }"
+        },
+        {
+          "id": "comments-list",
+          "method": "GET",
+          "path": "/comment/{ref_type}/{ref_id}/",
+          "summary": "List comments",
+          "description": "Retrieves all comments for an object (item, task, status, etc.)",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type: item, task, status, etc."
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ comment_id, value, created_on, ... }, ...]"
+        },
+        {
+          "id": "comments-create",
+          "method": "POST",
+          "path": "/comment/{ref_type}/{ref_id}/",
+          "summary": "Add comment",
+          "description": "Adds a comment to an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {
+              "value": {
+                "type": "string",
+                "required": true,
+                "description": "Comment text"
+              },
+              "external_id": {
+                "type": "string",
+                "required": false,
+                "description": "External identifier"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ comment_id, value, created_on, ... }"
+        },
+        {
+          "id": "comments-update",
+          "method": "PUT",
+          "path": "/comment/{comment_id}",
+          "summary": "Update comment",
+          "description": "Updates a comment",
+          "params": {
+            "path": {
+              "comment_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the comment"
+              }
+            },
+            "query": {},
+            "body": {
+              "value": {
+                "type": "string",
+                "required": true,
+                "description": "Updated comment text"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "comments-delete",
+          "method": "DELETE",
+          "path": "/comment/{comment_id}",
+          "summary": "Delete comment",
+          "description": "Deletes a comment",
+          "params": {
+            "path": {
+              "comment_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the comment"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "files",
+      "name": "Files",
+      "description": "Operations for managing file uploads and downloads",
+      "endpoints": [
+        {
+          "id": "files-upload",
+          "method": "POST",
+          "path": "/file/",
+          "summary": "Upload file",
+          "description": "Uploads a file to Podio",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "source": {
+                "type": "string",
+                "required": true,
+                "description": "File source: 'computer', 'url', etc."
+              },
+              "filename": {
+                "type": "string",
+                "required": true,
+                "description": "File name"
+              },
+              "file": {
+                "type": "file",
+                "required": true,
+                "description": "File data (multipart/form-data)"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ file_id, name, mimetype, size, created_on, ... }"
+        },
+        {
+          "id": "files-get",
+          "method": "GET",
+          "path": "/file/{file_id}",
+          "summary": "Get file",
+          "description": "Retrieves file information",
+          "params": {
+            "path": {
+              "file_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the file"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ file_id, name, mimetype, size, created_on, ... }"
+        },
+        {
+          "id": "files-download",
+          "method": "GET",
+          "path": "/file/{file_id}/download",
+          "summary": "Download file",
+          "description": "Downloads the file content",
+          "params": {
+            "path": {
+              "file_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the file"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "Binary file content"
+        },
+        {
+          "id": "files-delete",
+          "method": "DELETE",
+          "path": "/file/{file_id}",
+          "summary": "Delete file",
+          "description": "Deletes a file",
+          "params": {
+            "path": {
+              "file_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the file"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "files-attach",
+          "method": "POST",
+          "path": "/file/{file_id}/attach",
+          "summary": "Attach file",
+          "description": "Attaches a file to an object",
+          "params": {
+            "path": {
+              "file_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the file"
+              }
+            },
+            "query": {},
+            "body": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type: item, task, etc."
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "Tasks",
+      "description": "Operations for managing tasks",
+      "endpoints": [
+        {
+          "id": "tasks-get",
+          "method": "GET",
+          "path": "/task/{task_id}",
+          "summary": "Get task",
+          "description": "Retrieves a task by ID",
+          "params": {
+            "path": {
+              "task_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the task"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ task_id, text, status, due_on, created_on, ... }"
+        },
+        {
+          "id": "tasks-list",
+          "method": "GET",
+          "path": "/task/",
+          "summary": "List tasks",
+          "description": "Lists tasks, optionally filtered",
+          "params": {
+            "path": {},
+            "query": {
+              "responsible": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by responsible user ID"
+              },
+              "space_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by space ID"
+              },
+              "completed": {
+                "type": "boolean",
+                "required": false,
+                "description": "Filter by completion status"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ task_id, text, status, ... }, ...]"
+        },
+        {
+          "id": "tasks-create",
+          "method": "POST",
+          "path": "/task/",
+          "summary": "Create task",
+          "description": "Creates a new task",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "text": {
+                "type": "string",
+                "required": true,
+                "description": "Task description"
+              },
+              "due_on": {
+                "type": "string",
+                "required": false,
+                "description": "Due date (YYYY-MM-DD)"
+              },
+              "responsible": {
+                "type": "integer",
+                "required": false,
+                "description": "User ID of responsible person"
+              },
+              "private": {
+                "type": "boolean",
+                "required": false,
+                "description": "Whether task is private"
+              },
+              "ref_type": {
+                "type": "string",
+                "required": false,
+                "description": "Reference type if task is linked to object"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Reference ID if task is linked to object"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ task_id, text, status, ... }"
+        },
+        {
+          "id": "tasks-update",
+          "method": "PUT",
+          "path": "/task/{task_id}",
+          "summary": "Update task",
+          "description": "Updates an existing task",
+          "params": {
+            "path": {
+              "task_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the task"
+              }
+            },
+            "query": {},
+            "body": {
+              "text": {
+                "type": "string",
+                "required": false,
+                "description": "Updated task description"
+              },
+              "status": {
+                "type": "string",
+                "required": false,
+                "description": "Task status: active, completed"
+              },
+              "due_on": {
+                "type": "string",
+                "required": false,
+                "description": "Updated due date"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "tasks-delete",
+          "method": "DELETE",
+          "path": "/task/{task_id}",
+          "summary": "Delete task",
+          "description": "Deletes a task",
+          "params": {
+            "path": {
+              "task_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the task"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "tasks-assign",
+          "method": "POST",
+          "path": "/task/{task_id}/assign",
+          "summary": "Assign task",
+          "description": "Assigns a task to a user",
+          "params": {
+            "path": {
+              "task_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the task"
+              }
+            },
+            "query": {},
+            "body": {
+              "user_id": {
+                "type": "integer",
+                "required": true,
+                "description": "User ID to assign task to"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "tasks-complete",
+          "method": "POST",
+          "path": "/task/{task_id}/complete",
+          "summary": "Complete task",
+          "description": "Marks a task as completed",
+          "params": {
+            "path": {
+              "task_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the task"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "contacts",
+      "name": "Contacts",
+      "description": "Operations for managing user contacts and profiles",
+      "endpoints": [
+        {
+          "id": "contacts-get",
+          "method": "GET",
+          "path": "/contact/{contact_id}",
+          "summary": "Get contact",
+          "description": "Retrieves contact information",
+          "params": {
+            "path": {
+              "contact_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the contact"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ contact_id, name, mail, phone, ... }"
+        },
+        {
+          "id": "contacts-list",
+          "method": "GET",
+          "path": "/contact/",
+          "summary": "List contacts",
+          "description": "Lists contacts, optionally filtered",
+          "params": {
+            "path": {},
+            "query": {
+              "space_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by space ID"
+              },
+              "org_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by organization ID"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ contact_id, name, mail, ... }, ...]"
+        },
+        {
+          "id": "contacts-search",
+          "method": "GET",
+          "path": "/contact/search/",
+          "summary": "Search contacts",
+          "description": "Searches for contacts",
+          "params": {
+            "path": {},
+            "query": {
+              "query": {
+                "type": "string",
+                "required": true,
+                "description": "Search query"
+              },
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum results to return"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "name": "Hooks",
+      "description": "Operations for managing webhooks",
+      "endpoints": [
+        {
+          "id": "hooks-list",
+          "method": "GET",
+          "path": "/hook/{ref_type}/{ref_id}/",
+          "summary": "List hooks",
+          "description": "Retrieves all webhooks for an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type: app, item, etc."
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ hook_id, url, type, ... }, ...]"
+        },
+        {
+          "id": "hooks-create",
+          "method": "POST",
+          "path": "/hook/{ref_type}/{ref_id}/",
+          "summary": "Create hook",
+          "description": "Creates a webhook for an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {
+              "url": {
+                "type": "string",
+                "required": true,
+                "description": "Webhook URL"
+              },
+              "type": {
+                "type": "string",
+                "required": true,
+                "description": "Event type: item.create, item.update, etc."
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ hook_id, url, type, ... }"
+        },
+        {
+          "id": "hooks-delete",
+          "method": "DELETE",
+          "path": "/hook/{hook_id}",
+          "summary": "Delete hook",
+          "description": "Deletes a webhook",
+          "params": {
+            "path": {
+              "hook_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the hook"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "hooks-verify",
+          "method": "POST",
+          "path": "/hook/{hook_id}/verify/verify",
+          "summary": "Verify hook",
+          "description": "Verifies a webhook",
+          "params": {
+            "path": {
+              "hook_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the hook"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "name": "Status",
+      "description": "Operations for managing status messages",
+      "endpoints": [
+        {
+          "id": "status-get",
+          "method": "GET",
+          "path": "/status/{status_id}",
+          "summary": "Get status",
+          "description": "Retrieves a status message",
+          "params": {
+            "path": {
+              "status_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the status"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ status_id, value, created_on, created_by, ... }"
+        },
+        {
+          "id": "status-create",
+          "method": "POST",
+          "path": "/status/space/{space_id}/",
+          "summary": "Create status",
+          "description": "Creates a status message in a space",
+          "params": {
+            "path": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the space"
+              }
+            },
+            "query": {},
+            "body": {
+              "value": {
+                "type": "string",
+                "required": true,
+                "description": "Status message text"
+              },
+              "file_ids": {
+                "type": "array",
+                "required": false,
+                "description": "Array of file IDs to attach"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ status_id, value, created_on, ... }"
+        },
+        {
+          "id": "status-delete",
+          "method": "DELETE",
+          "path": "/status/{status_id}",
+          "summary": "Delete status",
+          "description": "Deletes a status message",
+          "params": {
+            "path": {
+              "status_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the status"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "spaces",
+      "name": "Spaces",
+      "description": "Operations for managing spaces (workspaces)",
+      "endpoints": [
+        {
+          "id": "spaces-get",
+          "method": "GET",
+          "path": "/space/{space_id}",
+          "summary": "Get space",
+          "description": "Retrieves a space by ID",
+          "params": {
+            "path": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the space"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ space_id, name, url, ... }"
+        },
+        {
+          "id": "spaces-list",
+          "method": "GET",
+          "path": "/space/",
+          "summary": "List spaces",
+          "description": "Lists all spaces accessible to the authenticated user",
+          "params": {
+            "path": {},
+            "query": {
+              "org_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by organization ID"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ space_id, name, url, ... }, ...]"
+        },
+        {
+          "id": "spaces-create",
+          "method": "POST",
+          "path": "/space/",
+          "summary": "Create space",
+          "description": "Creates a new space",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "name": {
+                "type": "string",
+                "required": true,
+                "description": "Space name"
+              },
+              "org_id": {
+                "type": "integer",
+                "required": true,
+                "description": "Organization ID"
+              },
+              "privacy": {
+                "type": "string",
+                "required": true,
+                "description": "Privacy: open, closed"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ space_id, name, url, ... }"
+        },
+        {
+          "id": "spaces-apps",
+          "method": "GET",
+          "path": "/space/{space_id}/app/",
+          "summary": "List apps in space",
+          "description": "Lists all apps in a space",
+          "params": {
+            "path": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the space"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ app_id, name, ... }, ...]"
+        },
+        {
+          "id": "spaces-members",
+          "method": "GET",
+          "path": "/space/{space_id}/member/",
+          "summary": "List space members",
+          "description": "Lists all members of a space",
+          "params": {
+            "path": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the space"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ user_id, role, ... }, ...]"
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "name": "Users",
+      "description": "Operations for managing users",
+      "endpoints": [
+        {
+          "id": "users-get",
+          "method": "GET",
+          "path": "/user/{user_id}",
+          "summary": "Get user",
+          "description": "Retrieves user information",
+          "params": {
+            "path": {
+              "user_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the user"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ user_id, name, mail, ... }"
+        },
+        {
+          "id": "users-me",
+          "method": "GET",
+          "path": "/user/me",
+          "summary": "Get current user",
+          "description": "Retrieves information about the authenticated user",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ user_id, name, mail, ... }"
+        },
+        {
+          "id": "users-status",
+          "method": "GET",
+          "path": "/user/status",
+          "summary": "Get user status",
+          "description": "Retrieves the status of the authenticated user",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ user_id, status, ... }"
+        },
+        {
+          "id": "users-profile",
+          "method": "GET",
+          "path": "/user/profile",
+          "summary": "Get user profile",
+          "description": "Retrieves the profile of the authenticated user",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ user_id, name, profile: {...}, ... }"
+        }
+      ]
+    },
+    {
+      "id": "organizations",
+      "name": "Organizations",
+      "description": "Operations for managing organizations",
+      "endpoints": [
+        {
+          "id": "orgs-get",
+          "method": "GET",
+          "path": "/org/{org_id}",
+          "summary": "Get organization",
+          "description": "Retrieves an organization by ID",
+          "params": {
+            "path": {
+              "org_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the organization"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ org_id, name, url, ... }"
+        },
+        {
+          "id": "orgs-list",
+          "method": "GET",
+          "path": "/org/",
+          "summary": "List organizations",
+          "description": "Lists all organizations accessible to the authenticated user",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ org_id, name, url, ... }, ...]"
+        },
+        {
+          "id": "orgs-members",
+          "method": "GET",
+          "path": "/org/{org_id}/member/",
+          "summary": "List org members",
+          "description": "Lists all members of an organization",
+          "params": {
+            "path": {
+              "org_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the organization"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ user_id, role, ... }, ...]"
+        }
+      ]
+    },
+    {
+      "id": "search",
+      "name": "Search",
+      "description": "Operations for searching across Podio",
+      "endpoints": [
+        {
+          "id": "search-query",
+          "method": "GET",
+          "path": "/search/",
+          "summary": "Search",
+          "description": "Searches across Podio for items, tasks, statuses, etc.",
+          "params": {
+            "path": {},
+            "query": {
+              "query": {
+                "type": "string",
+                "required": true,
+                "description": "Search query"
+              },
+              "ref_type": {
+                "type": "string",
+                "required": false,
+                "description": "Filter by object type"
+              },
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum results to return"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 1000,
+            "window": "hour"
+          },
+          "responseFormat": "{ results: [...], total: number }"
+        },
+        {
+          "id": "search-app",
+          "method": "GET",
+          "path": "/search/app/{app_id}/",
+          "summary": "Search in app",
+          "description": "Searches for items within a specific app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {
+              "query": {
+                "type": "string",
+                "required": true,
+                "description": "Search query"
+              },
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum results to return"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 1000,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication",
+      "description": "Authentication and authorization endpoints",
+      "endpoints": [
+        {
+          "id": "auth-token",
+          "method": "POST",
+          "path": "/oauth/token/v2",
+          "summary": "Get access token",
+          "description": "Authenticates and retrieves an access token",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "grant_type": {
+                "type": "string",
+                "required": true,
+                "description": "Grant type: 'app' or 'password'"
+              },
+              "app_id": {
+                "type": "integer",
+                "required": false,
+                "description": "App ID (required for app grant)"
+              },
+              "app_token": {
+                "type": "string",
+                "required": false,
+                "description": "App token (required for app grant)"
+              },
+              "username": {
+                "type": "string",
+                "required": false,
+                "description": "Username (required for password grant)"
+              },
+              "password": {
+                "type": "string",
+                "required": false,
+                "description": "Password (required for password grant)"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 100,
+            "window": "hour"
+          },
+          "responseFormat": "{ access_token, expires_in, ... }"
+        },
+        {
+          "id": "auth-revoke",
+          "method": "POST",
+          "path": "/oauth/token/revoke",
+          "summary": "Revoke token",
+          "description": "Revokes an access token",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "token": {
+                "type": "string",
+                "required": true,
+                "description": "Access token to revoke"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "description": "Operations for managing notifications",
+      "endpoints": [
+        {
+          "id": "notifications-list",
+          "method": "GET",
+          "path": "/notification/",
+          "summary": "List notifications",
+          "description": "Retrieves notifications for the authenticated user",
+          "params": {
+            "path": {},
+            "query": {
+              "viewed": {
+                "type": "boolean",
+                "required": false,
+                "description": "Filter by viewed status"
+              },
+              "starred": {
+                "type": "boolean",
+                "required": false,
+                "description": "Filter by starred status"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ notification_id, text, created_on, ... }, ...]"
+        },
+        {
+          "id": "notifications-mark-viewed",
+          "method": "POST",
+          "path": "/notification/{notification_id}/viewed",
+          "summary": "Mark as viewed",
+          "description": "Marks a notification as viewed",
+          "params": {
+            "path": {
+              "notification_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the notification"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "notifications-mark-all-viewed",
+          "method": "POST",
+          "path": "/notification/viewed",
+          "summary": "Mark all as viewed",
+          "description": "Marks all notifications as viewed",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "tags",
+      "name": "Tags",
+      "description": "Operations for managing tags",
+      "endpoints": [
+        {
+          "id": "tags-list",
+          "method": "GET",
+          "path": "/tag/{ref_type}/{ref_id}/",
+          "summary": "List tags",
+          "description": "Retrieves tags for an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type: item, task, etc."
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ text, ... }, ...]"
+        },
+        {
+          "id": "tags-create",
+          "method": "POST",
+          "path": "/tag/{ref_type}/{ref_id}/",
+          "summary": "Add tags",
+          "description": "Adds tags to an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {
+              "text": {
+                "type": "array",
+                "required": true,
+                "description": "Array of tag strings"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "tags-delete",
+          "method": "DELETE",
+          "path": "/tag/{ref_type}/{ref_id}/",
+          "summary": "Remove tags",
+          "description": "Removes tags from an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {
+              "text": {
+                "type": "array",
+                "required": true,
+                "description": "Array of tag strings to remove"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "views",
+      "name": "Views",
+      "description": "Operations for managing app views",
+      "endpoints": [
+        {
+          "id": "views-list",
+          "method": "GET",
+          "path": "/view/app/{app_id}/",
+          "summary": "List views",
+          "description": "Retrieves all views for an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ view_id, name, type, ... }, ...]"
+        },
+        {
+          "id": "views-get",
+          "method": "GET",
+          "path": "/view/{view_id}",
+          "summary": "Get view",
+          "description": "Retrieves a view definition",
+          "params": {
+            "path": {
+              "view_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the view"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ view_id, name, type, filters: {...}, ... }"
+        },
+        {
+          "id": "views-create",
+          "method": "POST",
+          "path": "/view/app/{app_id}/",
+          "summary": "Create view",
+          "description": "Creates a new view for an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {
+              "name": {
+                "type": "string",
+                "required": true,
+                "description": "View name"
+              },
+              "type": {
+                "type": "string",
+                "required": true,
+                "description": "View type: table, calendar, etc."
+              },
+              "filters": {
+                "type": "object",
+                "required": false,
+                "description": "View filters"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "subscriptions",
+      "name": "Subscriptions",
+      "description": "Operations for managing subscriptions to objects",
+      "endpoints": [
+        {
+          "id": "subscriptions-list",
+          "method": "GET",
+          "path": "/subscription/{ref_type}/{ref_id}/",
+          "summary": "List subscriptions",
+          "description": "Retrieves subscriptions for an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ subscription_id, user_id, ... }, ...]"
+        },
+        {
+          "id": "subscriptions-create",
+          "method": "POST",
+          "path": "/subscription/{ref_type}/{ref_id}/",
+          "summary": "Subscribe",
+          "description": "Subscribes to an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "subscriptions-delete",
+          "method": "DELETE",
+          "path": "/subscription/{ref_type}/{ref_id}/",
+          "summary": "Unsubscribe",
+          "description": "Unsubscribes from an object",
+          "params": {
+            "path": {
+              "ref_type": {
+                "type": "string",
+                "required": true,
+                "description": "Object type"
+              },
+              "ref_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the object"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "name": "Stream",
+      "description": "Operations for accessing activity streams",
+      "endpoints": [
+        {
+          "id": "stream-global",
+          "method": "GET",
+          "path": "/stream/",
+          "summary": "Get global stream",
+          "description": "Retrieves the global activity stream",
+          "params": {
+            "path": {},
+            "query": {
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum items to return"
+              },
+              "offset": {
+                "type": "integer",
+                "required": false,
+                "description": "Pagination offset"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ activity_id, type, created_on, ... }, ...]"
+        },
+        {
+          "id": "stream-space",
+          "method": "GET",
+          "path": "/stream/space/{space_id}/",
+          "summary": "Get space stream",
+          "description": "Retrieves the activity stream for a space",
+          "params": {
+            "path": {
+              "space_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the space"
+              }
+            },
+            "query": {
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum items to return"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        },
+        {
+          "id": "stream-app",
+          "method": "GET",
+          "path": "/stream/app/{app_id}/",
+          "summary": "Get app stream",
+          "description": "Retrieves the activity stream for an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {
+              "limit": {
+                "type": "integer",
+                "required": false,
+                "description": "Maximum items to return"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "JSON object"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "name": "Forms",
+      "description": "Operations for managing forms",
+      "endpoints": [
+        {
+          "id": "forms-get",
+          "method": "GET",
+          "path": "/form/{form_id}",
+          "summary": "Get form",
+          "description": "Retrieves a form definition",
+          "params": {
+            "path": {
+              "form_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the form"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ form_id, name, fields: [...], ... }"
+        },
+        {
+          "id": "forms-list",
+          "method": "GET",
+          "path": "/form/app/{app_id}/",
+          "summary": "List forms",
+          "description": "Retrieves all forms for an app",
+          "params": {
+            "path": {
+              "app_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the app"
+              }
+            },
+            "query": {},
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ form_id, name, ... }, ...]"
+        },
+        {
+          "id": "forms-submit",
+          "method": "POST",
+          "path": "/form/{form_id}/submit",
+          "summary": "Submit form",
+          "description": "Submits data to a form",
+          "params": {
+            "path": {
+              "form_id": {
+                "type": "integer",
+                "required": true,
+                "description": "The ID of the form"
+              }
+            },
+            "query": {},
+            "body": {
+              "fields": {
+                "type": "object",
+                "required": true,
+                "description": "Field values keyed by external_id"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "{ item_id, ... }"
+        }
+      ]
+    },
+    {
+      "id": "batch",
+      "name": "Batch",
+      "description": "Operations for batch processing",
+      "endpoints": [
+        {
+          "id": "batch-execute",
+          "method": "POST",
+          "path": "/batch/",
+          "summary": "Execute batch",
+          "description": "Executes multiple API calls in a single request",
+          "params": {
+            "path": {},
+            "query": {},
+            "body": {
+              "items": {
+                "type": "array",
+                "required": true,
+                "description": "Array of { method, url, body } objects"
+              }
+            }
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ status, body, ... }, ...]"
+        }
+      ]
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "description": "Operations for accessing calendar data",
+      "endpoints": [
+        {
+          "id": "calendar-get",
+          "method": "GET",
+          "path": "/calendar/",
+          "summary": "Get calendar",
+          "description": "Retrieves calendar events",
+          "params": {
+            "path": {},
+            "query": {
+              "date_from": {
+                "type": "string",
+                "required": false,
+                "description": "Start date (YYYY-MM-DD)"
+              },
+              "date_to": {
+                "type": "string",
+                "required": false,
+                "description": "End date (YYYY-MM-DD)"
+              },
+              "space_id": {
+                "type": "integer",
+                "required": false,
+                "description": "Filter by space ID"
+              }
+            },
+            "body": {}
+          },
+          "rateLimit": {
+            "limit": 2500,
+            "window": "hour"
+          },
+          "responseFormat": "[{ event_id, title, start, end, ... }, ...]"
+        }
+      ]
+    }
+  ]
+}

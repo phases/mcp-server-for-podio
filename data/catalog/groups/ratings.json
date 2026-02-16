@@ -1,0 +1,6 @@
+{
+  "id": "ratings",
+  "name": "Ratings",
+  "description": "Operations for managing ratings",
+  "endpoints": []
+}

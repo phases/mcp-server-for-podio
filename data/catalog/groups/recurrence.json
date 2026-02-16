@@ -1,0 +1,6 @@
+{
+  "id": "recurrence",
+  "name": "Recurrence",
+  "description": "Operations for managing recurring events",
+  "endpoints": []
+}

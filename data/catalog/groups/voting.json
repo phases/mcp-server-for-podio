@@ -1,0 +1,6 @@
+{
+  "id": "voting",
+  "name": "Voting",
+  "description": "Operations for managing votes",
+  "endpoints": []
+}

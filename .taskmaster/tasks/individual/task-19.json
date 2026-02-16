@@ -1,0 +1,12 @@
+{
+  "id": 19,
+  "title": "Add Logging Infrastructure",
+  "description": "Implement structured logging for debugging and monitoring. Must log tool calls (without sensitive data), log errors with context, support configurable log levels, and log to console (and optionally file).",
+  "details": "Sprint 4 - Error Handling & Developer Experience. Provides observability for debugging.",
+  "testStrategy": "Verify logging works, check sensitive data not logged, test log levels, verify console output.",
+  "status": "pending",
+  "dependencies": [15],
+  "priority": "low",
+  "subtasks": []
+}
+

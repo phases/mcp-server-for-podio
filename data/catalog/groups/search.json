@@ -1,0 +1,74 @@
+{
+  "id": "search",
+  "name": "Search",
+  "description": "Operations for searching across Podio",
+  "endpoints": [
+    {
+      "id": "search-query",
+      "method": "GET",
+      "path": "/search/",
+      "summary": "Search",
+      "description": "Searches across Podio for items, tasks, statuses, etc.",
+      "params": {
+        "path": {},
+        "query": {
+          "query": {
+            "type": "string",
+            "required": true,
+            "description": "Search query"
+          },
+          "ref_type": {
+            "type": "string",
+            "required": false,
+            "description": "Filter by object type"
+          },
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum results to return"
+          }
+        },
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 1000,
+        "window": "hour"
+      },
+      "responseFormat": "{ results: [...], total: number }"
+    },
+    {
+      "id": "search-app",
+      "method": "POST",
+      "path": "/search/app/{app_id}/",
+      "summary": "Search in app",
+      "description": "Searches for items within a specific app",
+      "params": {
+        "path": {
+          "app_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the app"
+          }
+        },
+        "query": {},
+        "body": {
+          "query": {
+            "type": "string",
+            "required": true,
+            "description": "Search query"
+          },
+          "limit": {
+            "type": "integer",
+            "required": false,
+            "description": "Maximum results to return"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 1000,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

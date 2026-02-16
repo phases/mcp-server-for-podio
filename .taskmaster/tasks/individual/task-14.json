@@ -1,0 +1,12 @@
+{
+  "id": 14,
+  "title": "Create TypeScript Code Generator",
+  "description": "Generate TypeScript file with field configuration. Must generate valid TypeScript code, export constant with proper naming (podio<AppName>Fields), include all field metadata (fieldId, externalId, type, label), create directories recursively if needed, and file must pass TypeScript compilation.",
+  "details": "Sprint 3 - App Fetching + TS Config Generation. Generates type-safe configuration files.",
+  "testStrategy": "Verify generated TypeScript compiles, check constant naming, verify all metadata included, test directory creation.",
+  "status": "pending",
+  "dependencies": [13],
+  "priority": "high",
+  "subtasks": []
+}
+

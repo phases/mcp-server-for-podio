@@ -1,0 +1,87 @@
+{
+  "id": "status",
+  "name": "Status",
+  "description": "Operations for managing status messages",
+  "endpoints": [
+    {
+      "id": "status-get",
+      "method": "GET",
+      "path": "/status/{status_id}",
+      "summary": "Get status",
+      "description": "Retrieves a status message",
+      "params": {
+        "path": {
+          "status_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the status"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ status_id, value, created_on, created_by, ... }"
+    },
+    {
+      "id": "status-create",
+      "method": "POST",
+      "path": "/status/space/{space_id}/",
+      "summary": "Create status",
+      "description": "Creates a status message in a space",
+      "params": {
+        "path": {
+          "space_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the space"
+          }
+        },
+        "query": {},
+        "body": {
+          "value": {
+            "type": "string",
+            "required": true,
+            "description": "Status message text"
+          },
+          "file_ids": {
+            "type": "array",
+            "required": false,
+            "description": "Array of file IDs to attach"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ status_id, value, created_on, ... }"
+    },
+    {
+      "id": "status-delete",
+      "method": "DELETE",
+      "path": "/status/{status_id}",
+      "summary": "Delete status",
+      "description": "Deletes a status message",
+      "params": {
+        "path": {
+          "status_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the status"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

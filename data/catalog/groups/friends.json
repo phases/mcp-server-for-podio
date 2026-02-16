@@ -1,0 +1,6 @@
+{
+  "id": "friends",
+  "name": "Friends",
+  "description": "Operations for managing friend connections",
+  "endpoints": []
+}

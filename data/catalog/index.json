@@ -1,0 +1,280 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-02",
+  "baseUrl": "https://api.podio.com",
+  "documentation": "https://developers.podio.com/doc",
+  "rateLimit": {
+    "default": {
+      "limit": 2500,
+      "window": "hour"
+    },
+    "auth": {
+      "limit": 100,
+      "window": "hour"
+    },
+    "search": {
+      "limit": 1000,
+      "window": "hour"
+    }
+  },
+  "groups": [
+    {
+      "id": "actions",
+      "name": "Actions",
+      "description": "Operations for managing actions",
+      "endpointCount": 0
+    },
+    {
+      "id": "alerts",
+      "name": "Alerts",
+      "description": "Operations for managing alerts",
+      "endpointCount": 0
+    },
+    {
+      "id": "app-market",
+      "name": "App market",
+      "description": "Operations for app marketplace",
+      "endpointCount": 0
+    },
+    {
+      "id": "applications",
+      "name": "Applications",
+      "description": "Operations for managing application definitions",
+      "endpointCount": 8
+    },
+    {
+      "id": "batch",
+      "name": "Batch",
+      "description": "Operations for batch processing",
+      "endpointCount": 1
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "description": "Operations for accessing calendar data",
+      "endpointCount": 1
+    },
+    {
+      "id": "comments",
+      "name": "Comments",
+      "description": "Operations for managing comments on items, tasks, and other objects",
+      "endpointCount": 5
+    },
+    {
+      "id": "contacts",
+      "name": "Contacts",
+      "description": "Operations for managing user contacts and profiles",
+      "endpointCount": 3
+    },
+    {
+      "id": "conversations",
+      "name": "Conversations",
+      "description": "Operations for managing conversations",
+      "endpointCount": 0
+    },
+    {
+      "id": "devices",
+      "name": "Devices",
+      "description": "Operations for mobile device management",
+      "endpointCount": 0
+    },
+    {
+      "id": "email",
+      "name": "Email",
+      "description": "Operations for email management",
+      "endpointCount": 0
+    },
+    {
+      "id": "embeds",
+      "name": "Embeds",
+      "description": "Operations for managing embedded content",
+      "endpointCount": 0
+    },
+    {
+      "id": "files",
+      "name": "Files",
+      "description": "Operations for managing file uploads and downloads",
+      "endpointCount": 5
+    },
+    {
+      "id": "flows",
+      "name": "Flows",
+      "description": "Operations for managing flows",
+      "endpointCount": 0
+    },
+    {
+      "id": "forms",
+      "name": "Forms",
+      "description": "Operations for managing forms",
+      "endpointCount": 3
+    },
+    {
+      "id": "friends",
+      "name": "Friends",
+      "description": "Operations for managing friend connections",
+      "endpointCount": 0
+    },
+    {
+      "id": "grants",
+      "name": "Grants",
+      "description": "Operations for managing grants",
+      "endpointCount": 0
+    },
+    {
+      "id": "hooks",
+      "name": "Hooks",
+      "description": "Operations for managing webhooks",
+      "endpointCount": 4
+    },
+    {
+      "id": "importer",
+      "name": "Importer",
+      "description": "Operations for data import",
+      "endpointCount": 0
+    },
+    {
+      "id": "integrations",
+      "name": "Integrations",
+      "description": "Operations for managing integrations",
+      "endpointCount": 0
+    },
+    {
+      "id": "items",
+      "name": "Items",
+      "description": "Operations for managing items (records) in Podio apps",
+      "endpointCount": 10
+    },
+    {
+      "id": "layout",
+      "name": "Layout",
+      "description": "Operations for managing layouts",
+      "endpointCount": 0
+    },
+    {
+      "id": "linked-accounts",
+      "name": "Linked Accounts",
+      "description": "Operations for managing linked accounts",
+      "endpointCount": 0
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "description": "Operations for managing notifications",
+      "endpointCount": 3
+    },
+    {
+      "id": "oauth-authorization",
+      "name": "OAuth authorization",
+      "description": "OAuth authentication and authorization endpoints",
+      "endpointCount": 0
+    },
+    {
+      "id": "organizations",
+      "name": "Organizations",
+      "description": "Operations for managing organizations",
+      "endpointCount": 3
+    },
+    {
+      "id": "questions",
+      "name": "Questions",
+      "description": "Operations for managing questions",
+      "endpointCount": 0
+    },
+    {
+      "id": "ratings",
+      "name": "Ratings",
+      "description": "Operations for managing ratings",
+      "endpointCount": 0
+    },
+    {
+      "id": "recurrence",
+      "name": "Recurrence",
+      "description": "Operations for managing recurring events",
+      "endpointCount": 0
+    },
+    {
+      "id": "reference",
+      "name": "Reference",
+      "description": "Operations for managing references",
+      "endpointCount": 0
+    },
+    {
+      "id": "reminders",
+      "name": "Reminders",
+      "description": "Operations for managing reminders",
+      "endpointCount": 0
+    },
+    {
+      "id": "search",
+      "name": "Search",
+      "description": "Operations for searching across Podio",
+      "endpointCount": 2
+    },
+    {
+      "id": "space-members",
+      "name": "Space members",
+      "description": "Operations for managing space members",
+      "endpointCount": 0
+    },
+    {
+      "id": "spaces",
+      "name": "Spaces",
+      "description": "Operations for managing spaces (workspaces)",
+      "endpointCount": 5
+    },
+    {
+      "id": "status",
+      "name": "Status",
+      "description": "Operations for managing status messages",
+      "endpointCount": 3
+    },
+    {
+      "id": "stream",
+      "name": "Stream",
+      "description": "Operations for accessing activity streams",
+      "endpointCount": 3
+    },
+    {
+      "id": "subscriptions",
+      "name": "Subscriptions",
+      "description": "Operations for managing subscriptions to objects",
+      "endpointCount": 3
+    },
+    {
+      "id": "tags",
+      "name": "Tags",
+      "description": "Operations for managing tags",
+      "endpointCount": 3
+    },
+    {
+      "id": "tasks",
+      "name": "Tasks",
+      "description": "Operations for managing tasks",
+      "endpointCount": 7
+    },
+    {
+      "id": "users",
+      "name": "Users",
+      "description": "Operations for managing users",
+      "endpointCount": 3
+    },
+    {
+      "id": "views",
+      "name": "Views",
+      "description": "Operations for managing app views",
+      "endpointCount": 3
+    },
+    {
+      "id": "voting",
+      "name": "Voting",
+      "description": "Operations for managing votes",
+      "endpointCount": 0
+    },
+    {
+      "id": "widgets",
+      "name": "Widgets",
+      "description": "Operations for managing widgets",
+      "endpointCount": 0
+    }
+  ]
+}

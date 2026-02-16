@@ -1,0 +1,149 @@
+{
+  "id": "comments",
+  "name": "Comments",
+  "description": "Operations for managing comments on items, tasks, and other objects",
+  "endpoints": [
+    {
+      "id": "comments-get",
+      "method": "GET",
+      "path": "/comment/{comment_id}",
+      "summary": "Get comment",
+      "description": "Retrieves a comment by ID",
+      "params": {
+        "path": {
+          "comment_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the comment"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ comment_id, value, created_on, created_by, ... }"
+    },
+    {
+      "id": "comments-list",
+      "method": "GET",
+      "path": "/comment/{ref_type}/{ref_id}/",
+      "summary": "List comments",
+      "description": "Retrieves all comments for an object (item, task, status, etc.)",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type: item, task, status, etc."
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "[{ comment_id, value, created_on, ... }, ...]"
+    },
+    {
+      "id": "comments-create",
+      "method": "POST",
+      "path": "/comment/{ref_type}/{ref_id}/",
+      "summary": "Add comment",
+      "description": "Adds a comment to an object",
+      "params": {
+        "path": {
+          "ref_type": {
+            "type": "string",
+            "required": true,
+            "description": "Object type"
+          },
+          "ref_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the object"
+          }
+        },
+        "query": {},
+        "body": {
+          "value": {
+            "type": "string",
+            "required": true,
+            "description": "Comment text"
+          },
+          "external_id": {
+            "type": "string",
+            "required": false,
+            "description": "External identifier"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "{ comment_id, value, created_on, ... }"
+    },
+    {
+      "id": "comments-update",
+      "method": "PUT",
+      "path": "/comment/{comment_id}",
+      "summary": "Update comment",
+      "description": "Updates a comment",
+      "params": {
+        "path": {
+          "comment_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the comment"
+          }
+        },
+        "query": {},
+        "body": {
+          "value": {
+            "type": "string",
+            "required": true,
+            "description": "Updated comment text"
+          }
+        }
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    },
+    {
+      "id": "comments-delete",
+      "method": "DELETE",
+      "path": "/comment/{comment_id}",
+      "summary": "Delete comment",
+      "description": "Deletes a comment",
+      "params": {
+        "path": {
+          "comment_id": {
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the comment"
+          }
+        },
+        "query": {},
+        "body": {}
+      },
+      "rateLimit": {
+        "limit": 2500,
+        "window": "hour"
+      },
+      "responseFormat": "JSON object"
+    }
+  ]
+}

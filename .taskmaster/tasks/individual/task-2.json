@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "title": "Create Basic MCP Server Structure",
+  "description": "Implement basic MCP server using @modelcontextprotocol/sdk with stdio transport. Server must initialize correctly, stdio transport configured, server can be started via npm script, and basic error handling in place.",
+  "details": "Sprint 0 - Project Setup. Creates the core MCP server infrastructure that all other tools will build upon.",
+  "testStrategy": "Server initializes without errors, stdio transport works, npm start script executes successfully.",
+  "status": "pending",
+  "dependencies": [1],
+  "priority": "high",
+  "subtasks": []
+}
+
