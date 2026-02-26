@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Podio MCP Server – Connect Podio to your AI tools</title>
+  <meta name="description" content="Model Context Protocol server for Podio. Add Podio to Cursor, Claude Desktop, and other MCP-compatible AI tools." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --bg-code: #0c1222;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: #0ea5e9;
+      --border: #334155;
+      --success: #34d399;
+      --radius: 12px;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero */
+    header {
+      padding: 4rem 0 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    header .tagline {
+      margin: 0;
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    header .badge {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.12);
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* Sections */
+    section {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    p {
+      margin: 0 0 1rem;
+      color: var(--text-muted);
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+    }
+
+    li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    /* Code */
+    pre, code {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+
+    pre {
+      margin: 0 0 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      color: var(--text);
+    }
+
+    code {
+      padding: 0.15rem 0.4rem;
+      background: var(--bg-code);
+      border-radius: 6px;
+      color: var(--accent);
+    }
+
+    pre code {
+      padding: 0;
+      background: none;
+      color: inherit;
+    }
+
+    /* Steps */
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--bg);
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .step h4 {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .step p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      margin: 0 0.5rem;
+    }
+
+    /* Small */
+    .note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Podio MCP Server</h1>
+      <p class="tagline">Connect Podio to Cursor, Claude, and other AI tools</p>
+      <span class="badge">Model Context Protocol</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <h2>What is this?</h2>
+      <p>
+        A <strong>Model Context Protocol (MCP)</strong> server that exposes Podio to AI assistants.
+        Use it from Cursor, Claude Desktop, or any MCP-compatible client to query apps, manage items and tasks,
+        search, and call the Podio API—all from natural language.
+      </p>
+      <ul>
+        <li>Items: get, create, update, delete, filter</li>
+        <li>Apps & spaces: list, get, create</li>
+        <li>Tasks: list, create, complete</li>
+        <li>Comments, files, hooks, search, metadata</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Add to your AI tool</h2>
+      <p>You can connect in two ways: <strong>local</strong> (run the server on your machine) or <strong>remote</strong> (connect to a URL, e.g. Docker).</p>
+
+      <div class="card">
+        <h3>Option A – Local (Cursor with path)</h3>
+        <p>Cursor runs the server in your project. Add this to <code>.cursor/mcp.json</code> (or your IDE’s MCP config):</p>
+      </div>
+      <pre><code>{
+  "mcpServers": {
+    "podio-developer-mcp": {
+      "command": "node",
+      "args": ["/absolute/path/to/podio_mcp_server/dist/index.js"]
+    }
+  }
+}</code></pre>
+      <p class="note">Replace <code>/absolute/path/to/podio_mcp_server</code> with your project path. Then create <code>podio.config.json</code> in the project root (copy from <code>podio.config.json.example</code>) and add your Podio credentials.</p>
+
+      <div class="card">
+        <h3>Option B – Remote (URL / Docker)</h3>
+        <p>Connect to a server running over HTTP (e.g. at <code>https://podiomcp.example.com</code>). Add this to your MCP config:</p>
+      </div>
+      <pre><code>{
+  "mcpServers": {
+    "podio-developer-mcp": {
+      "url": "https://podiomcp.example.com/sse"
+    }
+  }
+}</code></pre>
+      <p class="note">After connecting, call the <strong>setPodioConfig</strong> tool (podio_system, operation <code>set_config</code>) once with your <code>clientId</code>, <code>clientSecret</code>, and <code>apps</code>. No config file on the server.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Setup steps (Cursor, local)</h2>
+      <ol class="steps">
+        <li class="step">
+          <h4>Clone and build</h4>
+          <p><code>git clone &lt;repo&gt; &amp;&amp; cd podio_mcp_server &amp;&amp; npm install &amp;&amp; npm run build</code></p>
+        </li>
+        <li class="step">
+          <h4>Create config</h4>
+          <p>In the project root, create <code>podio.config.json</code> (e.g. copy from <code>podio.config.json.example</code>). Add your Podio <code>clientId</code>, <code>clientSecret</code>, and <code>apps</code> (name, appId, appToken from Podio Developer settings).</p>
+        </li>
+        <li class="step">
+          <h4>Add MCP server</h4>
+          <p>In Cursor: open <code>.cursor/mcp.json</code> and add the <code>podio-developer-mcp</code> entry with <code>command</code> and <code>args</code> pointing to <code>dist/index.js</code> (see Option A above). Use the <strong>absolute path</strong> to your project.</p>
+        </li>
+        <li class="step">
+          <h4>Restart Cursor</h4>
+          <p>Restart Cursor so it starts the MCP server. Use the <strong>ping</strong> or <strong>get_config_status</strong> tool to verify.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Config file (local only)</h2>
+      <p>For local use, the server reads <code>podio.config.json</code> from the project root. It does not create this file; you must create it.</p>
+      <pre><code>{
+  "clientId": "your-client-id",
+  "clientSecret": "your-client-secret",
+  "username": "your-username",
+  "password": "your-password",
+  "apps": [
+    { "name": "Projects", "appId": 12345, "appToken": "your-app-token" }
+  ]
+}</code></pre>
+      <p>Get <code>clientId</code> and <code>clientSecret</code> from Podio → Settings → Developer → API. Get <code>appId</code> and <code>appToken</code> from each app’s Developer section.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="README.md">README</a>
+        <a href="CONFIGURATION.md">Configuration</a>
+        <a href="DEPLOYMENT.md">Deployment</a>
+      </div>
+      <p>Podio MCP Server · MIT · Model Context Protocol</p>
+    </div>
+  </footer>
+</body>
+</html>

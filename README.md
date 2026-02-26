@@ -35,28 +35,22 @@ npm install
    npm run build
    ```
 
-4. Configure Podio credentials:
-   - **Config file is created automatically** when Cursor starts the MCP server
-   - **IMPORTANT**: After enabling the MCP server in `.cursor/mcp.json`, you **must restart Cursor** for the server to start
-   - After restarting Cursor, the config file will be created as `podio.config.json` in the project root directory
-   - If the config file wasn't created automatically, use the `createConfigFile` tool in Cursor
-   - Edit `podio.config.json` and replace placeholders with your Podio credentials:
-   ```json
-   {
-     "clientId": "your-client-id",
-     "clientSecret": "your-client-secret",
-     "username": "your-username",
-     "password": "your-password",
-     "apps": [
-       {
-         "name": "Projects",
-         "appId": 12345,
-         "appToken": "your-app-token"
-       }
-     ]
-   }
-   ```
-   - See `CONFIGURATION.md` for detailed instructions
+4. **Create the configuration file** (required for local/stdio use):
+   - The server does **not** create the config file for you. You must create it yourself.
+   - **Location**: In the **project root** (same folder as `package.json`), create a file named `podio.config.json`.
+   - **Easiest**: Copy the example and edit it:
+     ```bash
+     cp podio.config.json.example podio.config.json
+     ```
+   - Open `podio.config.json` and replace the placeholders with your Podio credentials:
+     - `clientId` – from Podio Settings → Developer → API
+     - `clientSecret` – from the same place
+     - `username` / `password` – optional (for organization APIs)
+     - `apps` – array of `{ "name": "Your App", "appId": <number>, "appToken": "<token>" }` (get app ID and token from each app’s Developer section)
+   - Save the file. The server will read it when you use Podio tools.
+   - **Remote (URL / Docker)**: If you connect to the server via a URL (e.g. Docker), do **not** create a file on the server. After connecting, call the **setPodioConfig** tool (podio_system, operation `set_config`) with the same config object. See [CONFIGURATION.md](./CONFIGURATION.md).
+
+5. **Restart Cursor** after adding the MCP server to `.cursor/mcp.json` so the server starts.
 
 ## Development
 
@@ -86,12 +80,11 @@ npm run format
 To use this MCP server with Cursor:
 
 1. The server is already configured in `.cursor/mcp.json`
-2. **Restart Cursor** - This is required for the MCP server to start
-3. The config file (`podio.config.json`) will be created automatically in the project root on first connection
-4. Edit `podio.config.json` and fill in your Podio credentials (see `CONFIGURATION.md`)
-5. Verify the connection works by using the `ping` tool or checking `getConfigStatus`
+2. **Create** `podio.config.json` in the project root (copy from `podio.config.json.example` and add your credentials). See step 4 in [Installation](#installation).
+3. **Restart Cursor** so the MCP server starts
+4. Verify the connection with the `ping` tool or `getConfigStatus`
 
-**Note:** Podio credentials are stored in `podio.config.json` in the project root (not in Cursor config) for better security. This file is automatically created when the MCP server starts.
+**Note:** Podio credentials are stored in `podio.config.json` in the project root (not in Cursor config). You must create this file yourself; the server does not create it.
 
 ## Available Tools
 
@@ -121,7 +114,7 @@ podio_mcp_server/
 
 ## Configuration
 
-Podio credentials are stored in `podio.config.json` (created automatically in the project root directory when the MCP server starts):
+Podio credentials are stored in `podio.config.json` in the project root. **You create this file** (e.g. copy from `podio.config.json.example` and edit). Required fields:
 
 - `clientId` - Podio OAuth client ID (required)
 - `clientSecret` - Podio OAuth client secret (required)
@@ -139,6 +132,10 @@ Run tests:
 ```bash
 npm test
 ```
+
+## Landing page
+
+When the server runs in HTTP mode (e.g. Docker or `npm run start:http`), **GET /** serves a landing page with an overview of the MCP server and instructions for adding it to Cursor and other AI tools. Open `http://localhost:3016/` in a browser, or deploy and open your public URL (e.g. `https://podiomcp.bitkit.dk/`). The static file is `index.html` in the project root.
 
 ## Documentation
 

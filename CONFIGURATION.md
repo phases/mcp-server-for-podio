@@ -4,7 +4,16 @@
 
 The Podio MCP Server uses a configuration file stored in the project root directory to manage Podio credentials. This keeps sensitive information secure and separate from version control (the file is in `.gitignore`).
 
+<<<<<<< HEAD
 ## Configuration File Location
+=======
+- **Local (stdio)**: When Cursor runs the server locally, a **config file** (`podio.config.json`) is created in your project root on first connection. You edit that file and the server reads it. The file is in `.gitignore`.
+- **Remote (HTTP/SSE / Docker)**: When you connect to a remote server (e.g. Docker at `http://localhost:3016/sse`), the server **does not create a config file**. Reason: the server process runs inside the container (or on another host); its working directory is not your project, so it cannot create `podio.config.json` in your project root. Instead, you provide config from the client by calling the **`setPodioConfig`** tool (podio_system, operation `set_config`) with your `clientId`, `clientSecret`, and `apps`. The server uses that config for your session only.
+
+The Docker image does not include or require `podio.config.json`; config is always provided by the client for remote connections.
+
+## Configuration File Location (local / stdio only)
+>>>>>>> ac901e2 (feat: added landing page)
 
 The configuration file is automatically created in the project root directory (where the MCP server code is):
 

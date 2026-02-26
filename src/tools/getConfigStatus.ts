@@ -32,8 +32,7 @@ export async function getConfigStatus(): Promise<ConfigStatus> {
       configuredApps: [],
       message:
         `Config file not found at ${configFilePath}. ` +
-        `The file should be created automatically when the MCP server starts. ` +
-        `If it doesn't exist, restart Cursor to trigger config file creation.`,
+        `Create podio.config.json in the project root (see README: copy from podio.config.json.example and add your Podio credentials).`,
     };
   }
 

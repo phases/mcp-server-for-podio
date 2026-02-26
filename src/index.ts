@@ -1,13 +1,24 @@
 #!/usr/bin/env node
 
 import express from 'express';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { registerTools } from './tools/index.js';
+<<<<<<< HEAD
 import { ensureConfigFile } from './config/podio.config.js';
+=======
+import {
+  runWithSessionAsync,
+  getCurrentSessionId,
+  setSessionConfig,
+  clearSessionConfig,
+} from './config/podio.config.js';
+>>>>>>> ac901e2 (feat: added landing page)
 
 /**
  * Podio MCP Server
@@ -651,6 +662,26 @@ function createMcpServer(): Server {
 async function runHttpServer(port: number): Promise<void> {
   const app = express();
 
+  // Landing page (overview + instructions). Served from project root or cwd.
+  const rootDir = process.cwd();
+  const landingPath = join(rootDir, 'index.html');
+  app.get('/', (_req, res) => {
+    if (existsSync(landingPath)) {
+      res.setHeader('Content-Type', 'text/html');
+      res.end(readFileSync(landingPath, 'utf-8'));
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(
+        JSON.stringify({
+          name: 'podio-mcp-server',
+          description: 'Model Context Protocol server for Podio',
+          endpoints: { sse: '/sse', health: '/health' },
+          docs: 'See README and index.html in the project root.',
+        })
+      );
+    }
+  });
+
   app.get('/sse', async (_req, res: ServerResponse) => {
     const transport = new SSEServerTransport('/message', res);
     const server = createMcpServer();
@@ -692,9 +723,8 @@ async function runHttpServer(port: number): Promise<void> {
 }
 
 async function main() {
-  ensureConfigFile();
-
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 0;
+
   if (port > 0) {
     await runHttpServer(port);
   } else {
