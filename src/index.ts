@@ -9,16 +9,6 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { registerTools } from './tools/index.js';
-<<<<<<< HEAD
-import { ensureConfigFile } from './config/podio.config.js';
-=======
-import {
-  runWithSessionAsync,
-  getCurrentSessionId,
-  setSessionConfig,
-  clearSessionConfig,
-} from './config/podio.config.js';
->>>>>>> ac901e2 (feat: added landing page)
 
 /**
  * Podio MCP Server
@@ -454,12 +444,14 @@ function createMcpServer(): Server {
           }
         },
         podio_metadata: async (args: {
-          operation: 'list_api_groups' | 'list_apis_by_group' | 'get_api_details' | 'search_apis' | 'list_app_fields' | 'get_form' | 'list_forms' | 'submit_form' | 'get_view' | 'list_views' | 'create_view';
+          operation: 'list_api_groups' | 'list_apis_by_group' | 'get_api_details' | 'search_apis' | 'list_app_fields' | 'list_app_relations' | 'list_deep_app_relations' | 'list_crm_relation_map' | 'get_form' | 'list_forms' | 'submit_form' | 'get_view' | 'list_views' | 'create_view';
           group?: string;
           apiId?: string;
           keyword?: string;
           appName?: string;
           appId?: number;
+          spaceId?: number;
+          withDrillDown?: boolean;
           formId?: number;
           viewId?: number;
           name?: string;
@@ -491,6 +483,26 @@ function createMcpServer(): Server {
               const { listAppFields } = await import('./tools/listAppFields.js');
               if (!args.appName) throw new Error('appName is required');
               return await listAppFields(args.appName);
+            }
+            case 'list_app_relations': {
+              const { listAppRelations } = await import('./tools/listAppRelations.js');
+              if (args.appName === undefined && (args.appId === undefined || args.appId === null)) {
+                throw new Error('appName or appId is required for list_app_relations');
+              }
+              return await listAppRelations({ appName: args.appName, appId: args.appId });
+            }
+            case 'list_deep_app_relations': {
+              const { listDeepAppRelations } = await import('./tools/listDeepAppRelations.js');
+              if (args.appId === undefined || args.appId === null) {
+                throw new Error('appId is required for list_deep_app_relations (seed app ID)');
+              }
+              return await listDeepAppRelations(args.appId);
+            }
+            case 'list_crm_relation_map': {
+              const { listCrmRelationMap } = await import('./tools/listCrmRelationMap.js');
+              const spaceId = args.spaceId ?? 1404261;
+              const withDrillDown = args.withDrillDown !== false;
+              return await listCrmRelationMap(spaceId, withDrillDown);
             }
             case 'get_form': {
               const { getForm } = await import('./tools/getForm.js');

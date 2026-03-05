@@ -123,20 +123,7 @@ export function ensureConfigFile(): void {
  * Does not validate required fields - use specific getters for that
  */
 export function loadPodioConfig(): PodioConfig {
-<<<<<<< HEAD
   ensureConfigFile();
-=======
-  const sessionId = getCurrentSessionId();
-  if (sessionId !== undefined) {
-    const sessionConfig = getSessionConfig(sessionId);
-    if (sessionConfig) {
-      return sessionConfig;
-    }
-    throw new Error(
-      'Podio config not set for this session. Call setPodioConfig with your Podio credentials (clientId, clientSecret, apps) first.'
-    );
-  }
->>>>>>> ac901e2 (feat: added landing page)
 
   const configFilePath = getConfigFilePath();
 

@@ -151,24 +151,26 @@ export function getConsolidatedTools(): Tool[] {
         },
         {
             name: 'podio_metadata',
-            description: 'Explore Podio API, app fields, forms, and views.',
+            description: 'Explore Podio API, app fields, app relations (direct or deep to max depth), forms, and views.',
             inputSchema: {
                 type: 'object',
                 properties: {
-                    operation: {
-                        type: 'string',
-                        enum: [
-                            'list_api_groups', 'list_apis_by_group', 'get_api_details', 'search_apis',
-                            'list_app_fields', 'get_form', 'list_forms', 'submit_form',
-                            'get_view', 'list_views', 'create_view'
-                        ],
-                        description: 'Metadata operation'
-                    },
+                        operation: {
+                            type: 'string',
+                            enum: [
+                                'list_api_groups', 'list_apis_by_group', 'get_api_details', 'search_apis',
+                                'list_app_fields', 'list_app_relations', 'list_deep_app_relations', 'list_crm_relation_map', 'get_form', 'list_forms', 'submit_form',
+                                'get_view', 'list_views', 'create_view'
+                            ],
+                            description: 'Metadata operation'
+                        },
                     group: { type: 'string' },
                     apiId: { type: 'string' },
                     keyword: { type: 'string' },
                     appName: { type: 'string' },
                     appId: { type: 'number' },
+                    spaceId: { type: 'number', description: 'Space ID for list_crm_relation_map (default: 1404261 CRM)' },
+                    withDrillDown: { type: 'boolean', description: 'Include one level drill-down for list_crm_relation_map (default: true)' },
                     formId: { type: 'number' },
                     viewId: { type: 'number' },
                     name: { type: 'string' },

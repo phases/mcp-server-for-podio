@@ -1,0 +1,6 @@
+---
+description: 
+alwaysApply: true
+---
+
+Don't create a new tool as a response to user prompt. If any tools missing to provide the answer, acknowledge that and always ask for confirmation for creating a new tool.

@@ -91,6 +91,7 @@ To use this MCP server with Cursor:
 - `ping` - Health check tool that returns "pong"
 - `getConfigStatus` - Check the status of the Podio configuration file
 - `listAppFields` - List all fields available in a Podio app by app name
+- `list_app_relations` (via `podio_metadata`) - List direct app relations for a given app (app-reference fields and linked apps).
 - `listApiGroups` - List all API groups (coming soon)
 - `listApisByGroup` - List APIs by group (coming soon)
 - `getApiDetails` - Get detailed API information (coming soon)
