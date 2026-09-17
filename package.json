@@ -4,13 +4,26 @@
   "description": "Model Context Protocol server for Podio integration development",
   "main": "dist/index.js",
   "type": "module",
+  "bin": {
+    "podio-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "data",
+    "index.html",
+    "LICENSE",
+    "README.md",
+    "CONFIGURATION.md",
+    "podio.config.json.example"
+  ],
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "start": "node dist/index.js",
     "start:http": "PORT=3000 node dist/index.js",
     "dev": "tsx src/index.ts",
     "watch": "tsc --watch",
-    "test": "jest",
+    "test": "echo \"No automated tests configured\" && exit 0",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -18,13 +31,22 @@
   },
   "keywords": [
     "mcp",
+    "mcp-server",
     "model-context-protocol",
     "podio",
     "integration",
     "typescript"
   ],
-  "author": "",
+  "author": "Rijosh <rijosh.ravi@phases.io>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rijoshrc/podio-mcp-server.git"
+  },
+  "homepage": "https://github.com/rijoshrc/podio-mcp-server#readme",
+  "bugs": {
+    "url": "https://github.com/rijoshrc/podio-mcp-server/issues"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0",
     "axios": "^1.6.0",

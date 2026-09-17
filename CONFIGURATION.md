@@ -2,26 +2,18 @@
 
 ## Overview
 
-The Podio MCP Server uses a configuration file stored in the project root directory to manage Podio credentials. This keeps sensitive information secure and separate from version control (the file is in `.gitignore`).
+The Podio MCP Server uses a configuration file to manage Podio credentials. This keeps sensitive information secure and separate from version control (the file is in `.gitignore`).
 
-<<<<<<< HEAD
-## Configuration File Location
-=======
-- **Local (stdio)**: When Cursor runs the server locally, a **config file** (`podio.config.json`) is created in your project root on first connection. You edit that file and the server reads it. The file is in `.gitignore`.
-- **Remote (HTTP/SSE / Docker)**: When you connect to a remote server (e.g. Docker at `http://localhost:3016/sse`), the server **does not create a config file**. Reason: the server process runs inside the container (or on another host); its working directory is not your project, so it cannot create `podio.config.json` in your project root. Instead, you provide config from the client by calling the **`setPodioConfig`** tool (podio_system, operation `set_config`) with your `clientId`, `clientSecret`, and `apps`. The server uses that config for your session only.
+- **Local (stdio)**: When Cursor (or another MCP client) runs the server locally, create `podio.config.json` in the working directory the client uses (usually your project root). Copy from `podio.config.json.example` and fill in credentials. On first start the server may also create a placeholder file if none exists.
+- **Remote (HTTP/SSE / Docker)**: The Docker image does not include `podio.config.json`. For remote deployments, mount or inject config into the server process working directory, or run with credentials available as a local `podio.config.json` on the host that you bind-mount. There is currently **no** remote `set_config` tool.
 
-The Docker image does not include or require `podio.config.json`; config is always provided by the client for remote connections.
-
-## Configuration File Location (local / stdio only)
->>>>>>> ac901e2 (feat: added landing page)
-
-The configuration file is automatically created in the project root directory (where the MCP server code is):
+## Configuration File Location (local / stdio)
 
 ```
 podio.config.json
 ```
 
-On first server start (when Cursor enables the MCP connection), the file is created automatically with placeholders that you need to fill in.
+Place this file in the directory where the MCP server process starts (project root when using a local clone; the cwd used by `npx` / Cursor when using npm).
 
 ## Configuration Structure
 
@@ -68,29 +60,17 @@ On first server start (when Cursor enables the MCP connection), the file is crea
 
 ## Setup Instructions
 
-### 1. Enable MCP Connection in Cursor
+### 1. Create the config file
 
-**The config file is created automatically when Cursor enables the MCP connection!**
-
-1. **Restart Cursor** (if not already done)
-2. **Cursor automatically starts the MCP server** when it connects
-3. **Server creates the config file** automatically as `podio.config.json` in the project root
-4. **Check Cursor's MCP logs** or server output for confirmation
-
-You'll see messages like:
-
-```
-[Podio Config] ✅ Config file created at: /path/to/project/podio.config.json
-[Podio Config] 📝 Please edit this file and replace placeholders with your Podio credentials
+```bash
+cp podio.config.json.example podio.config.json
 ```
 
-**No manual server start needed!** The config file is created automatically when Cursor connects to the MCP server.
-
-See `docs/HOW_CONFIG_CREATION_WORKS.md` for detailed explanation of the automatic creation process.
+Or let the server create a placeholder on first start, then edit it.
 
 ### 2. Edit the Config File
 
-Open `podio.config.json` in the project root directory and fill in your Podio credentials:
+Open `podio.config.json` and fill in your Podio credentials:
 
 ```json
 {
@@ -154,71 +134,53 @@ List all the fields available in the app Projects
 2. Finds the app with `name: "Projects"`
 3. Uses its `appId` and `appToken` for authentication
 4. Fetches the app definition from Podio
-5. Returns all fields
+5. Returns all fields (via `podio_metadata` operation `list_app_fields`)
 
 ## Security Notes
 
-- ✅ **Config file is in project root** - Easy to find and edit
-- ✅ **Not in version control** - The config file is in `.gitignore` and never committed to git
-- ✅ **Local file only** - Config file stays on your machine
-- ⚠️ **Keep it secure** - Don't share the config file with others
-- ⚠️ **File permissions** - Consider setting restrictive permissions: `chmod 600 podio.config.json`
+- Config file stays on your machine; it is listed in `.gitignore`
+- Do not commit or share `podio.config.json`
+- Consider restrictive permissions: `chmod 600 podio.config.json`
 
 ## Verification
 
-To verify your configuration is working:
-
-1. Check the config file exists and has values:
-
-   ```bash
-   cat podio.config.json
-   ```
-
-2. Test with MCP tools:
-   - Use the `listAppFields` tool with an app name
-   - If credentials are invalid, you'll get a clear error message
+1. Check the config file exists and has real values (not placeholders)
+2. Use MCP tools to verify:
+   - `podio_system` with operation `ping`
+   - `podio_system` with operation `get_config_status`
+   - `podio_metadata` with operation `list_app_fields` and an app name
 
 ## Troubleshooting
 
-### Config File Not Created
+### Config File Missing
 
-If the config file isn't created automatically:
-
-1. Check file permissions in the project directory
-2. Verify the server has write access to the project root directory
-3. Restart Cursor to trigger the automatic creation
+1. Create it from the example: `cp podio.config.json.example podio.config.json`
+2. Ensure the server cwd is the directory containing the file
+3. Restart Cursor / the MCP client
 
 ### Invalid Credentials Error
 
-If you see "Podio credentials not configured":
-
-1. Verify `podio.config.json` exists in the project root
-2. Check that `clientId` and `clientSecret` are filled in (not empty strings)
-3. Verify the JSON is valid (no syntax errors)
+1. Verify `podio.config.json` exists
+2. Check that `clientId` and `clientSecret` are filled in
+3. Verify the JSON is valid
 
 ### App Not Found
 
-If you query an app that's not in the config:
-
-- Check the app name matches exactly (case-insensitive)
+- Check the app name matches (case-insensitive)
 - Verify the app is in the `apps` array
-- Check for typos in the app name
 
 ### Permission Errors
-
-If you get permission errors:
 
 1. Check file permissions: `ls -la podio.config.json`
 2. Ensure the file is readable: `chmod 600 podio.config.json`
 
 ## Example Config File
 
-See `podio.config.json.example` in the project root for a template. The actual config file `podio.config.json` is created automatically in the same location.
+See `podio.config.json.example` in the project root for a template.
 
 ## How It Works
 
-1. **On MCP Server Start**: Server checks for `podio.config.json` in the project root
-2. **If Missing**: Creates the file with default placeholders
-3. **User Fills Config**: User edits the file with their credentials
-4. **MCP Tools Use Config**: When tools are called, they read from the config file
-5. **App Lookup**: Tools can find apps by name and use their credentials automatically
+1. On MCP server start, the server looks for `podio.config.json` in the process working directory
+2. If missing, it may create a placeholder file with default values
+3. You edit the file with real credentials
+4. MCP tools read from that config when calling Podio APIs

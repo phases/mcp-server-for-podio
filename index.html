@@ -290,22 +290,35 @@
       <p>You can connect in two ways: <strong>local</strong> (run the server on your machine) or <strong>remote</strong> (connect to a URL, e.g. Docker).</p>
 
       <div class="card">
-        <h3>Option A – Local (Cursor with path)</h3>
-        <p>Cursor runs the server in your project. Add this to <code>.cursor/mcp.json</code> (or your IDE’s MCP config):</p>
+        <h3>Option A – Local (npx)</h3>
+        <p>Recommended. Add this to <code>.cursor/mcp.json</code> (or your IDE’s MCP config):</p>
+      </div>
+      <pre><code>{
+  "mcpServers": {
+    "podio-developer-mcp": {
+      "command": "npx",
+      "args": ["-y", "podio-mcp-server"]
+    }
+  }
+}</code></pre>
+      <p class="note">Create <code>podio.config.json</code> in the working directory the client uses (copy from <code>podio.config.json.example</code>) and add your Podio credentials.</p>
+
+      <div class="card">
+        <h3>Option B – Local (path to clone)</h3>
+        <p>After cloning and building, point at <code>dist/index.js</code>:</p>
       </div>
       <pre><code>{
   "mcpServers": {
     "podio-developer-mcp": {
       "command": "node",
-      "args": ["/absolute/path/to/podio_mcp_server/dist/index.js"]
+      "args": ["/absolute/path/to/podio-mcp-server/dist/index.js"]
     }
   }
 }</code></pre>
-      <p class="note">Replace <code>/absolute/path/to/podio_mcp_server</code> with your project path. Then create <code>podio.config.json</code> in the project root (copy from <code>podio.config.json.example</code>) and add your Podio credentials.</p>
 
       <div class="card">
-        <h3>Option B – Remote (URL / Docker)</h3>
-        <p>Connect to a server running over HTTP (e.g. at <code>https://podiomcp.example.com</code>). Add this to your MCP config:</p>
+        <h3>Option C – Remote (URL / Docker)</h3>
+        <p>Connect to a server running over HTTP (e.g. at <code>https://podiomcp.example.com</code>). Ensure <code>podio.config.json</code> is available to that process (e.g. bind-mount). Add this to your MCP config:</p>
       </div>
       <pre><code>{
   "mcpServers": {
@@ -314,7 +327,7 @@
     }
   }
 }</code></pre>
-      <p class="note">After connecting, call the <strong>setPodioConfig</strong> tool (podio_system, operation <code>set_config</code>) once with your <code>clientId</code>, <code>clientSecret</code>, and <code>apps</code>. No config file on the server.</p>
+      <p class="note">There is no remote <code>set_config</code> tool; config must be on the server filesystem or mount.</p>
     </div>
   </section>
 
@@ -323,20 +336,16 @@
       <h2>Setup steps (Cursor, local)</h2>
       <ol class="steps">
         <li class="step">
-          <h4>Clone and build</h4>
-          <p><code>git clone &lt;repo&gt; &amp;&amp; cd podio_mcp_server &amp;&amp; npm install &amp;&amp; npm run build</code></p>
+          <h4>Add MCP server</h4>
+          <p>In Cursor: open <code>.cursor/mcp.json</code> and add the <code>npx</code> config from Option A (or a path to <code>dist/index.js</code> from Option B).</p>
         </li>
         <li class="step">
           <h4>Create config</h4>
-          <p>In the project root, create <code>podio.config.json</code> (e.g. copy from <code>podio.config.json.example</code>). Add your Podio <code>clientId</code>, <code>clientSecret</code>, and <code>apps</code> (name, appId, appToken from Podio Developer settings).</p>
-        </li>
-        <li class="step">
-          <h4>Add MCP server</h4>
-          <p>In Cursor: open <code>.cursor/mcp.json</code> and add the <code>podio-developer-mcp</code> entry with <code>command</code> and <code>args</code> pointing to <code>dist/index.js</code> (see Option A above). Use the <strong>absolute path</strong> to your project.</p>
+          <p>Create <code>podio.config.json</code> (copy from <code>podio.config.json.example</code>). Add your Podio <code>clientId</code>, <code>clientSecret</code>, and <code>apps</code>.</p>
         </li>
         <li class="step">
           <h4>Restart Cursor</h4>
-          <p>Restart Cursor so it starts the MCP server. Use the <strong>ping</strong> or <strong>get_config_status</strong> tool to verify.</p>
+          <p>Restart Cursor so it starts the MCP server. Use <code>podio_system</code> with operation <code>ping</code> or <code>get_config_status</code> to verify.</p>
         </li>
       </ol>
     </div>
