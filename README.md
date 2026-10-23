@@ -162,10 +162,10 @@ Production reverse proxy, TLS, systemd/PM2: see [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 Package is ready to ship. From a clean tree after `npm run build`:
 
-1. **GitHub** (first time): create public repo `mcp-server-for-podio` under the `phases` org, then:
+1. **GitHub.** The published branch is **`main`** on `phases/mcp-server-for-podio`. Do not push `master`.
 
 ```bash
-git remote add github git@github.com:phases/mcp-server-for-podio.git
+git remote add github git@github.com:phases/mcp-server-for-podio.git   # first time only
 git push -u github HEAD:main
 ```
 
