@@ -685,7 +685,7 @@ async function runHttpServer(port: number): Promise<void> {
       res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({
-          name: 'podio-mcp-server',
+          name: '@phasesdk/mcp-server-for-podio',
           description: 'Model Context Protocol server for Podio',
           endpoints: { sse: '/sse', health: '/health' },
           docs: 'See README and index.html in the project root.',

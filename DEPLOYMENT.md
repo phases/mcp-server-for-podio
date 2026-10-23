@@ -27,24 +27,34 @@ To make it accessible at **podiomcp.bitkit.dk**, you run the server in HTTP mode
 On the host that will serve `podiomcp.bitkit.dk`:
 
 ```bash
-# Clone or copy the project
-cd /var/www/html/AI/podio_mcp_server   # or your path
+# Clone the repo (or copy the project)
+cd /path/to/mcp-server-for-podio
 
 # Install dependencies and build
 npm ci
 npm run build
 
-# Run in HTTP mode (default port 3000)
-PORT=3000 node dist/index.js
+# Run in HTTP mode
+PORT=3016 node dist/index.js
 ```
 
-Or use the script:
+Or:
 
 ```bash
 npm run start:http
 ```
 
-This starts the server on port **3000** (or the value of `PORT`). By default it binds to **127.0.0.1** so only the same host (e.g. Nginx/Caddy) can reach it. Set `BIND_ADDRESS=0.0.0.0` if you need to listen on all interfaces.
+This starts the server on port **3016** by default in Docker, or **3000** via `npm run start:http` (override with `PORT`). By default it binds to **127.0.0.1** so only the same host (e.g. Nginx/Caddy) can reach it. Set `BIND_ADDRESS=0.0.0.0` if you need to listen on all interfaces.
+
+### Docker
+
+```bash
+docker build -t mcp-server-for-podio .
+docker run --rm -p 3016:3016 \
+  -v /path/to/podio.config.json:/app/podio.config.json:ro \
+  -e PORT=3016 \
+  mcp-server-for-podio
+```
 
 For production, run under a process manager so it restarts on crash and starts on boot.
 

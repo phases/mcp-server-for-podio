@@ -9,7 +9,7 @@ Add to `.cursor/mcp.json` (or your client’s MCP settings):
   "mcpServers": {
     "podio-developer-mcp": {
       "command": "npx",
-      "args": ["-y", "podio-mcp-server"]
+      "args": ["-y", "@phasesdk/mcp-server-for-podio"]
     }
   }
 }
@@ -38,7 +38,7 @@ Fill in `clientId`, `clientSecret`, and `apps`. See [CONFIGURATION.md](./CONFIGU
   "mcpServers": {
     "podio-developer-mcp": {
       "command": "node",
-      "args": ["/absolute/path/to/podio-mcp-server/dist/index.js"]
+      "args": ["/absolute/path/to/mcp-server-for-podio/dist/index.js"]
     }
   }
 }
